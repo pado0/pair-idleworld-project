@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @Builder @NoArgsConstructor @AllArgsConstructor
-public class PlayList {
+public class PlayList extends BaseEntity{
 
     private Long id;
 
