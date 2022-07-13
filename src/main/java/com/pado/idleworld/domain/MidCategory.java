@@ -17,7 +17,10 @@ public class MidCategory extends BaseEntity{
     private Long id;
 
     private String title;
+
+    @Lob
     private String imageUrl;
+    @Lob
     private String videoUrl;
     private String videoText;
 

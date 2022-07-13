@@ -9,12 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 @EqualsAndHashCode(of = "id")
-@Builder @AllArgsConstructor @NoArgsConstructor
-public class Account extends BaseEntity{
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class Account extends BaseEntity {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
     @Email
@@ -24,6 +28,7 @@ public class Account extends BaseEntity{
 
     private String nickname;
 
+    @Lob
     private String imageUrl;
 
     @OneToMany(mappedBy = "account")
@@ -31,4 +36,6 @@ public class Account extends BaseEntity{
 
     private boolean agree;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private PlayList playList;
 }

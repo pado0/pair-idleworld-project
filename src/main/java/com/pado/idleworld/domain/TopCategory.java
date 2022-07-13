@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +19,8 @@ public class TopCategory extends BaseEntity{
     private Long id;
 
     private String title;
+
+    @Lob
     private String imageUrl;
 
     @OneToMany(mappedBy = "topCategory")

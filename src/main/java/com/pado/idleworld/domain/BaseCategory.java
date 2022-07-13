@@ -16,6 +16,7 @@ public class BaseCategory extends BaseEntity{
 
     private String title;
 
+    @Lob
     private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)

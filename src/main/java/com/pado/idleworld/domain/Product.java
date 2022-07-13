@@ -23,4 +23,7 @@ public class Product extends BaseEntity{
     @OneToMany(mappedBy = "product")
     private List<AccountProduct> accountProducts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "product")
+    private List<Contents> contents = new ArrayList<>();
+
 }
