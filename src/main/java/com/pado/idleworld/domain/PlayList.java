@@ -18,6 +18,6 @@ public class PlayList extends BaseEntity{
     private Account account;
 
 
-    @OneToMany(mappedBy = "playList",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "playList")
     private List<Contents> contents = new ArrayList<>();
 }
