@@ -1,4 +1,4 @@
-package com.pado.idleworld.domain;
+package com.pado.idleworld.common;
 
 
 import lombok.Getter;

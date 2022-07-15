@@ -1,9 +1,9 @@
 package com.pado.idleworld.domain;
 
+import com.pado.idleworld.common.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.util.Lazy;
 
 import javax.persistence.*;
 
@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Contents extends BaseEntity{
+public class Contents extends BaseEntity {
 
     @Id
     @GeneratedValue

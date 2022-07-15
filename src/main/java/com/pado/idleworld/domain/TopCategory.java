@@ -1,18 +1,18 @@
 package com.pado.idleworld.domain;
 
+import com.pado.idleworld.common.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter @Setter
 @NoArgsConstructor
-public class TopCategory extends BaseEntity{
+public class TopCategory extends BaseEntity {
 
     @Id
     @GeneratedValue
