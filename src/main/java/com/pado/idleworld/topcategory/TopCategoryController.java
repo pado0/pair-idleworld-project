@@ -18,11 +18,11 @@ public class TopCategoryController {
 
     TopCategoryService topCategoryService;
 
-    @PostMapping("/category/top")
-    public TopCategoryCreateResponse topCategoryCreate(@RequestBody @Valid TopCategoryCreateRequest request) {
-        TopCategory topCategory = topCategoryService.createTopCategory(request);
-
-    }
+//    @PostMapping("/category/top")
+//    public TopCategoryCreateResponse topCategoryCreate(@RequestBody @Valid TopCategoryCreateRequest request) {
+//        TopCategory topCategory = topCategoryService.createTopCategory(request);
+//
+//    }
 
     private String title;
     @Lob
