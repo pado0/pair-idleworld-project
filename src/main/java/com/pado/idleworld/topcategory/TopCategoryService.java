@@ -41,9 +41,10 @@ public class TopCategoryService {
     @Transactional
     public void update(TopCategoryUpdateRequest request) {
         TopCategory topCategory = topCategoryRepository.findOneById(request.getId());
-        topCategory.builder()
+        topCategory.builder()   //todo 빌더는 생성자다... 셋터로 바꾸자
                 .title(request.getTitle())
                 .imageUrl(request.getImageUrl())
-                .build();
+                .build()
+                ;
     }
 }
