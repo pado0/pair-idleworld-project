@@ -27,15 +27,18 @@ public class TopCategoryController {
     @GetMapping("/category/top")
     public DataResult topCategoryRead() {
         List<TopCategory> topCategories = topCategoryService.findTopCategories();
-        List<TopCategoryCreateResponse> result = topCategories.stream()
-                .map(m->new TopCategoryCreateResponse(m.getId(),m.getTitle(), m.getImageUrl()))
+        List<TopCategoryReadResponse> result = topCategories.stream()
+                .map(m->new TopCategoryReadResponse(m.getId(),m.getTitle(), m.getImageUrl()))
                 .collect(Collectors.toList());
 
         return new DataResult(ResponseCode.SUCCESS, result);
     }
 
+    //todo 업데이트가 안됨, JPA return쪽 봐보자
     @PutMapping("/category/top")
-    public CommonResult topCategoryEdit(@RequestBody @Valid TopCategoryCreateRequest request) {
-        return null;
+    public CommonResult topCategoryUpdate(@RequestBody @Valid TopCategoryUpdateRequest request) {
+        topCategoryService.update(request);
+        topCategoryService.findOneTopCategory(request.getId());
+        return new CommonResult(ResponseCode.SUCCESS);
     }
 }

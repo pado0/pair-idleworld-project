@@ -34,4 +34,16 @@ public class TopCategoryService {
     public List<TopCategory> findTopCategories() {
         return topCategoryRepository.findAll();
     }
+
+    public TopCategory findOneTopCategory(Long id) {
+        return topCategoryRepository.findOneById(id);
+    }
+    @Transactional
+    public void update(TopCategoryUpdateRequest request) {
+        TopCategory topCategory = topCategoryRepository.findOneById(request.getId());
+        topCategory.builder()
+                .title(request.getTitle())
+                .imageUrl(request.getImageUrl())
+                .build();
+    }
 }

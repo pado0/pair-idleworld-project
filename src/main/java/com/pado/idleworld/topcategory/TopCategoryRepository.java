@@ -21,4 +21,8 @@ public class TopCategoryRepository {
     public void save(TopCategory topCategory) {
         em.persist(topCategory);
     }
+
+    public TopCategory findOneById(Long id) {
+        return em.find(TopCategory.class, id);
+    }
 }
