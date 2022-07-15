@@ -28,6 +28,7 @@ public class TopCategoryService {
                 .imageUrl(request.getImageUrl())
                 .build();
         topCategoryRepository.save(topCategory);
+
     }
 
     public List<TopCategory> findTopCategories() {

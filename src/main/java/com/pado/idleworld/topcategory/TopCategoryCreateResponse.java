@@ -13,6 +13,7 @@ import javax.persistence.Lob;
 @AllArgsConstructor
 public class TopCategoryCreateResponse {
 
+    private Long topCategoryId;
     private String title;
     @Lob
     private String imageUrl;

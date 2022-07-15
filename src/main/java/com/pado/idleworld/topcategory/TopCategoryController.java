@@ -28,9 +28,14 @@ public class TopCategoryController {
     public DataResult topCategoryRead() {
         List<TopCategory> topCategories = topCategoryService.findTopCategories();
         List<TopCategoryCreateResponse> result = topCategories.stream()
-                .map(m->new TopCategoryCreateResponse(m.getTitle(), m.getImageUrl()))
+                .map(m->new TopCategoryCreateResponse(m.getId(),m.getTitle(), m.getImageUrl()))
                 .collect(Collectors.toList());
 
         return new DataResult(ResponseCode.SUCCESS, result);
+    }
+
+    @PutMapping("/category/top")
+    public CommonResult topCategoryEdit(@RequestBody @Valid TopCategoryCreateRequest request) {
+        return null;
     }
 }
