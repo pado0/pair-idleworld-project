@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing // BaseEntity 사용을 위함
 @SpringBootApplication
-
 public class IdleworldApplication {
 
 	public static void main(String[] args) {

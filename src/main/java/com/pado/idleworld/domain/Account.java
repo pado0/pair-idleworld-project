@@ -37,5 +37,6 @@ public class Account extends BaseEntity {
     private boolean agree;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="playlist_id")
     private PlayList playList;
 }
