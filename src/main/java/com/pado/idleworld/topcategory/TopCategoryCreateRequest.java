@@ -5,7 +5,6 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 
-@Entity
 @Getter
 @Setter
 @Builder
