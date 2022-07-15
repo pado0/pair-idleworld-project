@@ -36,6 +36,7 @@ public class Agreement {
     @NoArgsConstructor
     public static class Response{
         private String title;
+        private String subtitle;
     }
 
 }
