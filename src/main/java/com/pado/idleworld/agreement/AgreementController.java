@@ -7,6 +7,8 @@ import com.pado.idleworld.domain.Agreement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1")
@@ -32,8 +34,8 @@ public class AgreementController {
 
     @GetMapping("/agreement")
     public DataResult getLatestAgreementPolicy(){
-        agreementRepository.findById(agreementRepository.count() - 1);
-        return new DataResult(ResponseCode.SUCCESS);
+        Optional<Agreement> agreement = agreementRepository.findById(agreementRepository.count() - 1);
+        return new DataResult(ResponseCode.SUCCESS, agreement);
     }
 
 }

@@ -8,7 +8,8 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ResponseCode {
 
-    SUCCESS(200, "성공");
+    SUCCESS(200, "성공"),
+    FAIL(400, "실패");
 
     private int code;
     private String message;
