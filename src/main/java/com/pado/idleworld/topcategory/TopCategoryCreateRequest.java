@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 
-@Entity
+
 @Getter
 @Setter
 @Builder
@@ -14,6 +14,7 @@ import javax.persistence.Lob;
 public class TopCategoryCreateRequest {
 
     private String title;
+
     @Lob
     private String imageUrl;
 }

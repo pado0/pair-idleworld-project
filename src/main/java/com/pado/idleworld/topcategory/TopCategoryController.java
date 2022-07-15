@@ -1,37 +1,36 @@
 package com.pado.idleworld.topcategory;
 
-import com.pado.idleworld.account.SignUpForm;
+import com.pado.idleworld.common.CommonResult;
+import com.pado.idleworld.common.DataResult;
+import com.pado.idleworld.common.ResponseCode;
 import com.pado.idleworld.domain.TopCategory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.Lob;
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/v1")
 public class TopCategoryController {
 
-    TopCategoryService topCategoryService;
+    private final TopCategoryService topCategoryService;
 
-//    @PostMapping("/category/top")
-//    public TopCategoryCreateResponse topCategoryCreate(@RequestBody @Valid TopCategoryCreateRequest request) {
-//        TopCategory topCategory = topCategoryService.createTopCategory(request);
-//
-//    }
-
-    private String title;
-    @Lob
-    private String imageUrl;
+    @PostMapping("/category/top")
+    public CommonResult topCategoryCreate(@RequestBody @Valid TopCategoryCreateRequest request) {
+        topCategoryService.createTopCategory(request);
+        return new CommonResult(ResponseCode.SUCCESS);
+    }
 
     @GetMapping("/category/top")
-    public String topCategoryRead(Model model) {
-        model.addAttribute(new SignUpForm());
+    public DataResult topCategoryRead() {
+        List<TopCategory> topCategories = topCategoryService.findTopCategories();
+        List<TopCategoryCreateResponse> result = topCategories.stream()
+                .map(m->new TopCategoryCreateResponse(m.getTitle(), m.getImageUrl()))
+                .collect(Collectors.toList());
 
-        return "topcategory/get";
+        return new DataResult(ResponseCode.SUCCESS, result);
     }
 }
