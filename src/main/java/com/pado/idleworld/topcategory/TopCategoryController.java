@@ -38,7 +38,7 @@ public class TopCategoryController {
     @PutMapping("/category/top")
     public CommonResult topCategoryUpdate(@RequestBody @Valid TopCategoryUpdateRequest request) {
         topCategoryService.update(request);
-        topCategoryService.findOneTopCategory(request.getId());
+        //topCategoryService.findOneTopCategory(request.getId());
         return new CommonResult(ResponseCode.SUCCESS);
     }
 }
