@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,9 +22,11 @@ public class BaseCategoryController {
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
+
     @GetMapping("/category/base")
     public DataResult baseCategoryRead() {
-        baseCategoryService.findBaseCategories();
-        return null;
+        List<BaseCategoryReadResponse> result = baseCategoryService.findBaseCategories();
+        return new DataResult(ResponseCode.SUCCESS, result);
+
     }
 }

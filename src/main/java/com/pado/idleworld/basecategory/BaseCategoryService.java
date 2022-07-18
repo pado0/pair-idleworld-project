@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Lob;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -31,7 +33,9 @@ public class BaseCategoryService {
         baseCategoryRepository.save(baseCategory);
     }
 
-    public BaseCategoryReadResponse findBaseCategories() {
-        return null;
+    public List<BaseCategoryReadResponse> findBaseCategories() {
+        return baseCategoryRepository.findAll().stream()
+                .map(m-> new BaseCategoryReadResponse(m.getId(),m.getTitle(),m.getImageUrl(),m.getMidCategory().getId()))
+                .collect(Collectors.toList());
     }
 }

@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
+//todo - midCategoryId 틀리면 null로 생성됨
 @Data
 public class BaseCategoryCreateRequest {
 
