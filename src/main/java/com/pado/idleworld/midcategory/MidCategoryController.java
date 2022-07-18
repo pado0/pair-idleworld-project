@@ -8,7 +8,6 @@ import com.pado.idleworld.domain.MidCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.Lob;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
