@@ -1,5 +1,7 @@
 package com.pado.idleworld.account;
 
+import com.pado.idleworld.common.CommonResult;
+import com.pado.idleworld.common.ResponseCode;
 import com.pado.idleworld.domain.Account;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -11,11 +13,31 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1")
 public class AccountController {
 
+    private final AccountRepository accountRepository;
+
+    @PostMapping("/sign-up")
+    public CommonResult accountSignUp(@RequestBody @Valid SignUpForm request) {
+        Account account = Account.builder()
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .nickname(request.getNickname())
+                .imageUrl(request.getImageUrl())
+                .agree(request.isAgree())
+                .build();
+        accountRepository.save(account);
+
+        return new CommonResult(ResponseCode.SUCCESS);
+    }
+
+
+
+
+/*
     private final SignUpFormValidator signUpFormValidator;
     private final AccountRepository accountRepository;
 
@@ -50,5 +72,5 @@ public class AccountController {
 
         return "redirect:/";
     }
-
+*/
 }

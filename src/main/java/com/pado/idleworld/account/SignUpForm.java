@@ -3,6 +3,7 @@ package com.pado.idleworld.account;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Lob;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -21,6 +22,9 @@ public class SignUpForm {
     @NotBlank
     @Length(min = 8, max = 20)
     private String password;
+
+    @Lob
+    private String imageUrl;
 
     private boolean agree;
 
