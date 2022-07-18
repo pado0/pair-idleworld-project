@@ -37,6 +37,9 @@ public class MidCategoryController {
         return new DataResult<>(ResponseCode.SUCCESS, result);
     }
 
-
-
+    @PutMapping("/category/mid")
+    public CommonResult midCategoryUpdate(@RequestBody @Valid MidCategoryUpdateRequest request) {
+        midCategoryService.updateMidCategory(request);
+        return new CommonResult<>(ResponseCode.SUCCESS);
+    }
 }

@@ -39,7 +39,7 @@ public class TopCategoryService {
         return topCategoryRepository.findOneById(id);
     }
     @Transactional
-    public void update(TopCategoryUpdateRequest request) {
+    public void updateTopCategory(TopCategoryUpdateRequest request) {
         TopCategory topCategory = topCategoryRepository.findOneById(request.getId());
         topCategory.setTitle(request.getTitle());
         topCategory.setImageUrl(request.getImageUrl());

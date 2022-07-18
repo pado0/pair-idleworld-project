@@ -37,4 +37,14 @@ public class MidCategoryService {
         return midCategoryRepository.findAll();
     }
 
+    @Transactional
+    public void updateMidCategory(MidCategoryUpdateRequest request) {
+        MidCategory findMidCategory = midCategoryRepository.findOneById(request.getId());
+        TopCategory findTopCategory = topCategoryRepository.findOneById(request.getTopCategoryId());
+        findMidCategory.setTitle(request.getTitle());
+        findMidCategory.setImageUrl(request.getImageUrl());
+        findMidCategory.setVideoUrl(request.getVideoUrl());
+        findMidCategory.setVideoText(request.getVideoText());
+        findMidCategory.setTopCategory(findTopCategory);
+    }
 }

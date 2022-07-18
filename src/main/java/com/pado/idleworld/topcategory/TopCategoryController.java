@@ -37,7 +37,7 @@ public class TopCategoryController {
     //todo 업데이트가 안됨, JPA return쪽 봐보자
     @PutMapping("/category/top")
     public CommonResult topCategoryUpdate(@RequestBody @Valid TopCategoryUpdateRequest request) {
-        topCategoryService.update(request);
+        topCategoryService.updateTopCategory(request);
         //topCategoryService.findOneTopCategory(request.getId());
         return new CommonResult(ResponseCode.SUCCESS);
     }

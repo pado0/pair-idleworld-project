@@ -20,4 +20,8 @@ public class MidCategoryRepository {
         return em.createQuery("select m from MidCategory m", MidCategory.class)
                 .getResultList();
     }
+
+    public MidCategory findOneById(Long id) {
+        return em.find(MidCategory.class, id);
+    }
 }

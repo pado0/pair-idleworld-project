@@ -7,7 +7,6 @@ import javax.persistence.Lob;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class TopCategoryReadResponse {
