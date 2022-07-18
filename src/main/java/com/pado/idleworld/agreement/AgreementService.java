@@ -1,9 +1,12 @@
 package com.pado.idleworld.agreement;
 
+import com.pado.idleworld.common.ResponseCode;
 import com.pado.idleworld.domain.Agreement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service
 @Transactional
 @RequiredArgsConstructor
 public class AgreementService {
@@ -19,4 +22,7 @@ public class AgreementService {
         agreementRepository.save(agreement);
     }
 
+    public Agreement findLastCreatedAgreement(){
+        return agreementRepository.findTop1ByOrderByIdDesc();
+    }
 }

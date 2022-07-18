@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -32,8 +33,10 @@ public class AgreementController {
     // 최신 약관 조회기능
     @GetMapping("/agreement")
     public DataResult getLatestAgreementPolicy(){
-        Agreement agreement = agreementRepository.findTop1ByOrderByIdDesc();
-        return new DataResult(ResponseCode.SUCCESS, agreement);
+
+        Agreement agreement = agreementService.findLastCreatedAgreement();
+        if(agreement == null) throw new AgreementNotExistsException();
+        else return new DataResult(ResponseCode.SUCCESS, agreement);
     }
 
     @PutMapping("/agreement/{id}")
@@ -42,9 +45,23 @@ public class AgreementController {
                                            @PathVariable("id") Long id) {
 
         Optional<Agreement> agreement = agreementRepository.findById(id);
+        if(agreement.isEmpty()) throw new NoSuchElementException();
+
         agreement.get().setTitle(agreementRequest.getTitle());
         agreement.get().setSubtitle(agreementRequest.getSubtitle());
 
+        return new CommonResult(ResponseCode.SUCCESS);
+    }
+
+    @DeleteMapping("/agreement/{id}")
+    @Transactional
+    public CommonResult deleteAgreementPolicy(@PathVariable("id") Long id) {
+
+        // todo : 이런 반복 로직들을 분리할 수 있을까?
+        Optional<Agreement> agreement = agreementRepository.findById(id);
+        if(agreement.isEmpty()) throw new NoSuchElementException();
+
+        agreementRepository.deleteById(id);
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
