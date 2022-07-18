@@ -4,6 +4,7 @@ import com.pado.idleworld.common.CommonResult;
 import com.pado.idleworld.common.DataResult;
 import com.pado.idleworld.common.ResponseCode;
 import com.pado.idleworld.domain.Account;
+import com.pado.idleworld.exception.LoginInfoMismatchException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -35,11 +36,11 @@ public class AccountController {
     public CommonResult accountLogin(@RequestBody @Valid LoginForm loginForm) {
 
         if (!accountRepository.existsByEmail(loginForm.getEmail())) {
-            return new CommonResult(ResponseCode.FAIL);
+            throw new LoginInfoMismatchException();
         }
         Account findAccount = accountRepository.findByEmail(loginForm.getEmail());
         if (!loginForm.getPassword().equals(findAccount.getPassword())) {
-            return new CommonResult(ResponseCode.FAIL);
+            throw new LoginInfoMismatchException();
         }
         return new CommonResult(ResponseCode.SUCCESS);
     }

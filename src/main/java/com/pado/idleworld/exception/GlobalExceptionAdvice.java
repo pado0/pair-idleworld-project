@@ -30,4 +30,10 @@ public class GlobalExceptionAdvice {
         return new CommonResult(ResponseCode.DUPLICATION_ELEMENT_EXISTS);
     }
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public CommonResult handleLoginInfoMismatchException(LoginInfoMismatchException e) {
+        return new CommonResult(ResponseCode.LOGIN_INFO_MISMATCH);
+    }
+
 }
