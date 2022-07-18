@@ -1,6 +1,5 @@
 package com.pado.idleworld.exception;
 
-import com.pado.idleworld.agreement.AgreementNotExistsException;
 import com.pado.idleworld.common.CommonResult;
 import com.pado.idleworld.common.ResponseCode;
 import org.springframework.http.HttpStatus;

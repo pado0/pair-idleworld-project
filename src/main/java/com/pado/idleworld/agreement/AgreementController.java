@@ -4,6 +4,7 @@ import com.pado.idleworld.common.CommonResult;
 import com.pado.idleworld.common.DataResult;
 import com.pado.idleworld.common.ResponseCode;
 import com.pado.idleworld.domain.Agreement;
+import com.pado.idleworld.exception.AgreementNotExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
