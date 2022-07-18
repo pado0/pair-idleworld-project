@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
+import java.util.Optional;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -24,5 +27,13 @@ public class AgreementService {
 
     public Agreement findLastCreatedAgreement(){
         return agreementRepository.findTop1ByOrderByIdDesc();
+    }
+
+    public Optional<Agreement> findAgreementById(Long id) {
+        return agreementRepository.findById(id);
+    }
+
+    public void deleteAgreementById(Long id) {
+        agreementRepository.deleteById(id);
     }
 }

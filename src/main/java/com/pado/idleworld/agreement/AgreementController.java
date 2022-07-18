@@ -15,8 +15,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("/v1")
 public class AgreementController {
-
-    private final AgreementRepository agreementRepository;
     private final AgreementService agreementService;
 
     // Admin 이용 약관 내용 CRUD
@@ -44,7 +42,7 @@ public class AgreementController {
     public CommonResult putAgreementPolicy(@RequestBody Agreement.Request agreementRequest,
                                            @PathVariable("id") Long id) {
 
-        Optional<Agreement> agreement = agreementRepository.findById(id);
+        Optional<Agreement> agreement = agreementService.findAgreementById(id);
         if(agreement.isEmpty()) throw new NoSuchElementException();
 
         agreement.get().setTitle(agreementRequest.getTitle());
@@ -58,10 +56,10 @@ public class AgreementController {
     public CommonResult deleteAgreementPolicy(@PathVariable("id") Long id) {
 
         // todo : 이런 반복 로직들을 분리할 수 있을까?
-        Optional<Agreement> agreement = agreementRepository.findById(id);
+        Optional<Agreement> agreement = agreementService.findAgreementById(id);
         if(agreement.isEmpty()) throw new NoSuchElementException();
 
-        agreementRepository.deleteById(id);
+        agreementService.deleteAgreementById(id);
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
