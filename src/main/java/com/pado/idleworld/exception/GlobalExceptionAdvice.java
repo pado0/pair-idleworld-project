@@ -22,4 +22,12 @@ public class GlobalExceptionAdvice {
     public CommonResult handleNoSuchElementException(NoSuchElementException e){
         return new CommonResult(ResponseCode.NO_SUCH_ELEMENT_EXISTS);
     }
+
+    //todo : 에러메시지, 응답코드 확인
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public CommonResult handleDuplicationElementException(DuplicationElementException e) {
+        return new CommonResult(ResponseCode.DUPLICATION_ELEMENT_EXISTS);
+    }
+
 }

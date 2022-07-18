@@ -26,14 +26,7 @@ public class AccountController {
 
     @PostMapping("/sign-up")
     public CommonResult accountSignUp(@RequestBody @Valid SignUpForm request) {
-        Account account = Account.builder()
-                .email(request.getEmail())
-                .password(request.getPassword())
-                .nickname(request.getNickname())
-                .imageUrl(request.getImageUrl())
-                .agree(request.isAgree())
-                .build();
-        accountRepository.save(account);
+        accountService.accountCreate(request);
 
         return new CommonResult(ResponseCode.SUCCESS);
     }
@@ -54,30 +47,16 @@ public class AccountController {
     //todo : playList 가져오면 널포인트
     @GetMapping("/account/{accountEmail}")
     public DataResult accountInfo(@PathVariable("accountEmail") String email) {
-        Account findAccount = accountRepository.findByEmail(email);
-        AccountInfoResponse result = AccountInfoResponse.builder()
-                .email(findAccount.getEmail())
-                .nickname(findAccount.getNickname())
-                .imageUrl(findAccount.getImageUrl())
-                .agree(findAccount.isAgree())
-                //.playListId(findAccount.getPlayList().getId())
-                .build();
-        return new DataResult(ResponseCode.SUCCESS, result);
+
+        return new DataResult(ResponseCode.SUCCESS, accountService.accountRead(email));
     }
 
 
-    @Transactional
+
     @PutMapping("/account/{accountEmail}")
     public CommonResult accountUpdate(@PathVariable("accountEmail") String email,
                                       @RequestBody AccountUpdateRequest request) {
-        //accountService.accountUpdate(email, request);
-        Account findAccount = accountRepository.findByEmail(email);
-        findAccount.setPassword(request.getPassword());
-        findAccount.setImageUrl(request.getImageUrl());
-        findAccount.setNickname(request.getNickname());
-
-
-
+        accountService.accountUpdate(email, request);
         return new CommonResult(ResponseCode.SUCCESS);
     }
 

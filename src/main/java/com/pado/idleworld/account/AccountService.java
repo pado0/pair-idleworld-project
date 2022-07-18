@@ -1,6 +1,7 @@
 package com.pado.idleworld.account;
 
 import com.pado.idleworld.domain.Account;
+import com.pado.idleworld.exception.DuplicationElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,4 +21,33 @@ public class AccountService {
         findAccount.setNickname(request.getNickname());
     }
 
+    @Transactional
+    public void accountCreate(SignUpForm request) {
+        duplicationCheck(request.getEmail());
+        Account account = Account.builder()
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .nickname(request.getNickname())
+                .imageUrl(request.getImageUrl())
+                .agree(request.isAgree())
+                .build();
+        accountRepository.save(account);
+    }
+
+    public void duplicationCheck(String email) {
+        if(accountRepository.existsByEmail(email)) {
+            throw new DuplicationElementException();
+        }
+    }
+
+    public AccountInfoResponse accountRead(String email) {
+        Account findAccount = accountRepository.findByEmail(email);
+        return AccountInfoResponse.builder()
+                .email(findAccount.getEmail())
+                .nickname(findAccount.getNickname())
+                .imageUrl(findAccount.getImageUrl())
+                .agree(findAccount.isAgree())
+                //.playListId(findAccount.getPlayList().getId())
+                .build();
+    }
 }
