@@ -36,12 +36,23 @@ public class AccountController {
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
+    @GetMapping("/account/login")
+    public CommonResult accountLogin(@RequestBody @Valid LoginForm loginForm) {
+
+        if(!accountRepository.existsByEmail(loginForm.getEmail())) {
+            return new CommonResult(ResponseCode.FAIL);
+        }
+        Account findAccount = accountRepository.findByEmail(loginForm.getEmail());
+        if (!loginForm.getPassword().equals(findAccount.getPassword())) {
+            return new CommonResult(ResponseCode.FAIL);
+        }
+        return new CommonResult(ResponseCode.SUCCESS);
+    }
+
     //todo : playList 가져오면 널포인트
     @GetMapping("/account/{accountEmail}")
     public DataResult accountInfo(@PathVariable("accountEmail") String email) {
-        System.out.println("111111111");
         Account findAccount = accountRepository.findByEmail(email);
-        System.out.println("22222222");
         AccountInfoResponse result = AccountInfoResponse.builder()
                 .email(findAccount.getEmail())
                 .nickname(findAccount.getNickname())
