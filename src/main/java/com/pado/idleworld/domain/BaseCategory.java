@@ -1,15 +1,15 @@
 package com.pado.idleworld.domain;
 
 import com.pado.idleworld.common.BaseEntity;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter @Setter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class BaseCategory extends BaseEntity {
 
     @Id @GeneratedValue

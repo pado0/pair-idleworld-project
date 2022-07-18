@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -19,12 +21,27 @@ public class TopCategoryService {
         return topCategory.getId();
     }
 
-    public TopCategory createTopCategory(TopCategoryCreateRequest topCategoryCreateRequest) {
+    @Transactional
+    public void createTopCategory(TopCategoryCreateRequest request) {
         TopCategory topCategory = TopCategory.builder()
-                .title(topCategoryCreateRequest.getTitle())
-                .imageUrl(topCategoryCreateRequest.getImageUrl())
+                .title(request.getTitle())
+                .imageUrl(request.getImageUrl())
                 .build();
         topCategoryRepository.save(topCategory);
-        return topCategory;
+
+    }
+
+    public List<TopCategory> findTopCategories() {
+        return topCategoryRepository.findAll();
+    }
+
+    public TopCategory findOneTopCategory(Long id) {
+        return topCategoryRepository.findOneById(id);
+    }
+    @Transactional
+    public void updateTopCategory(TopCategoryUpdateRequest request) {
+        TopCategory topCategory = topCategoryRepository.findOneById(request.getId());
+        topCategory.setTitle(request.getTitle());
+        topCategory.setImageUrl(request.getImageUrl());
     }
 }
