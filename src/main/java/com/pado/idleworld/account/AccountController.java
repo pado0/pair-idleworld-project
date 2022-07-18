@@ -7,6 +7,7 @@ import com.pado.idleworld.domain.Account;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
@@ -21,6 +22,7 @@ import javax.validation.Valid;
 public class AccountController {
 
     private final AccountRepository accountRepository;
+    private final AccountService accountService;
 
     @PostMapping("/sign-up")
     public CommonResult accountSignUp(@RequestBody @Valid SignUpForm request) {
@@ -39,7 +41,7 @@ public class AccountController {
     @GetMapping("/account/login")
     public CommonResult accountLogin(@RequestBody @Valid LoginForm loginForm) {
 
-        if(!accountRepository.existsByEmail(loginForm.getEmail())) {
+        if (!accountRepository.existsByEmail(loginForm.getEmail())) {
             return new CommonResult(ResponseCode.FAIL);
         }
         Account findAccount = accountRepository.findByEmail(loginForm.getEmail());
@@ -61,6 +63,22 @@ public class AccountController {
                 //.playListId(findAccount.getPlayList().getId())
                 .build();
         return new DataResult(ResponseCode.SUCCESS, result);
+    }
+
+
+    @Transactional
+    @PutMapping("/account/{accountEmail}")
+    public CommonResult accountUpdate(@PathVariable("accountEmail") String email,
+                                      @RequestBody AccountUpdateRequest request) {
+        //accountService.accountUpdate(email, request);
+        Account findAccount = accountRepository.findByEmail(email);
+        findAccount.setPassword(request.getPassword());
+        findAccount.setImageUrl(request.getImageUrl());
+        findAccount.setNickname(request.getNickname());
+
+
+
+        return new CommonResult(ResponseCode.SUCCESS);
     }
 
 
