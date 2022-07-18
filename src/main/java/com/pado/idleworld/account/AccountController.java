@@ -1,6 +1,7 @@
 package com.pado.idleworld.account;
 
 import com.pado.idleworld.common.CommonResult;
+import com.pado.idleworld.common.DataResult;
 import com.pado.idleworld.common.ResponseCode;
 import com.pado.idleworld.domain.Account;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.Lob;
 import javax.validation.Valid;
 
 @RestController
@@ -32,6 +34,22 @@ public class AccountController {
         accountRepository.save(account);
 
         return new CommonResult(ResponseCode.SUCCESS);
+    }
+
+    //todo : playList 가져오면 널포인트
+    @GetMapping("/account/{accountEmail}")
+    public DataResult accountInfo(@PathVariable("accountEmail") String email) {
+        System.out.println("111111111");
+        Account findAccount = accountRepository.findByEmail(email);
+        System.out.println("22222222");
+        AccountInfoResponse result = AccountInfoResponse.builder()
+                .email(findAccount.getEmail())
+                .nickname(findAccount.getNickname())
+                .imageUrl(findAccount.getImageUrl())
+                .agree(findAccount.isAgree())
+                //.playListId(findAccount.getPlayList().getId())
+                .build();
+        return new DataResult(ResponseCode.SUCCESS, result);
     }
 
 
