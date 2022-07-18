@@ -23,4 +23,8 @@ public class BaseCategoryRepository {
         return em.createQuery("select b from BaseCategory b", BaseCategory.class)
                 .getResultList();
     }
+
+    public BaseCategory findOneById(Long id) {
+        return em.find(BaseCategory.class, id);
+    }
 }

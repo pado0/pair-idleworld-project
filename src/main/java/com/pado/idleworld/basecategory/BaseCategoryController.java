@@ -22,11 +22,17 @@ public class BaseCategoryController {
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
-
     @GetMapping("/category/base")
     public DataResult baseCategoryRead() {
         List<BaseCategoryReadResponse> result = baseCategoryService.findBaseCategories();
         return new DataResult(ResponseCode.SUCCESS, result);
 
+    }
+
+    @PutMapping("/category/base")
+    public CommonResult basesCategoryUpdate(@RequestBody @Valid BaseCategoryUpdateRequest request) {
+        baseCategoryService.updateBaseCategory(request);
+
+        return new CommonResult(ResponseCode.SUCCESS);
     }
 }

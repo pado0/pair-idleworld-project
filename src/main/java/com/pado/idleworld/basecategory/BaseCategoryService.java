@@ -38,4 +38,13 @@ public class BaseCategoryService {
                 .map(m-> new BaseCategoryReadResponse(m.getId(),m.getTitle(),m.getImageUrl(),m.getMidCategory().getId()))
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public void updateBaseCategory(BaseCategoryUpdateRequest request) {
+        BaseCategory findBaseCategory = baseCategoryRepository.findOneById(request.getId());
+        MidCategory findMidCategory = midCategoryRepository.findOneById(request.getMidCategoryId());
+        findBaseCategory.setTitle(request.getTitle());
+        findBaseCategory.setImageUrl(request.getImageUrl());
+        findBaseCategory.setMidCategory(findMidCategory);
+    }
 }

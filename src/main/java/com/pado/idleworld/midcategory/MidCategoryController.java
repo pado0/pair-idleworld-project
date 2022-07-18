@@ -27,6 +27,7 @@ public class MidCategoryController {
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
+    //todo : 미드카테고리 -> 미드카테고리리드리스폰스 서비스단으로
     @GetMapping("/category/mid")
     public DataResult midCategoryRead() {
         List<MidCategory> midCategories = midCategoryService.findMidCategories();
