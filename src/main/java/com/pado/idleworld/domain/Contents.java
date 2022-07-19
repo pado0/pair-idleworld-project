@@ -35,7 +35,7 @@ public class Contents extends BaseEntity {
     @JoinColumn(name = "playlist_id")
     private PlayList playList;
 
-    @OneToMany(mappedBy = "contents")
+    @OneToMany(mappedBy = "contents", cascade = CascadeType.ALL)
     private List<BaseCategoryContents> baseCategoryContents = new ArrayList<>();
 
     // DTO
