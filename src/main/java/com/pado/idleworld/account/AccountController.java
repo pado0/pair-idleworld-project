@@ -4,8 +4,10 @@ import com.pado.idleworld.common.CommonResult;
 import com.pado.idleworld.common.DataResult;
 import com.pado.idleworld.common.ResponseCode;
 import com.pado.idleworld.domain.Account;
+import com.pado.idleworld.exception.LoginInfoMismatchException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -24,16 +26,15 @@ public class AccountController {
     private final AccountRepository accountRepository;
     private final AccountService accountService;
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @PostMapping("/sign-up")
     public CommonResult accountSignUp(@RequestBody @Valid SignUpForm request) {
-        Account account = Account.builder()
-                .email(request.getEmail())
-                .password(request.getPassword())
-                .nickname(request.getNickname())
-                .imageUrl(request.getImageUrl())
-                .agree(request.isAgree())
-                .build();
-        accountRepository.save(account);
+        String rawPw = request.getPassword();
+        String encPw = bCryptPasswordEncoder.encode(rawPw);
+        request.setPassword(encPw);
+
+        accountService.accountCreate(request);
 
         return new CommonResult(ResponseCode.SUCCESS);
     }
@@ -42,11 +43,11 @@ public class AccountController {
     public CommonResult accountLogin(@RequestBody @Valid LoginForm loginForm) {
 
         if (!accountRepository.existsByEmail(loginForm.getEmail())) {
-            return new CommonResult(ResponseCode.FAIL);
+            throw new LoginInfoMismatchException();
         }
         Account findAccount = accountRepository.findByEmail(loginForm.getEmail());
         if (!loginForm.getPassword().equals(findAccount.getPassword())) {
-            return new CommonResult(ResponseCode.FAIL);
+            throw new LoginInfoMismatchException();
         }
         return new CommonResult(ResponseCode.SUCCESS);
     }
@@ -54,30 +55,16 @@ public class AccountController {
     //todo : playList 가져오면 널포인트
     @GetMapping("/account/{accountEmail}")
     public DataResult accountInfo(@PathVariable("accountEmail") String email) {
-        Account findAccount = accountRepository.findByEmail(email);
-        AccountInfoResponse result = AccountInfoResponse.builder()
-                .email(findAccount.getEmail())
-                .nickname(findAccount.getNickname())
-                .imageUrl(findAccount.getImageUrl())
-                .agree(findAccount.isAgree())
-                //.playListId(findAccount.getPlayList().getId())
-                .build();
-        return new DataResult(ResponseCode.SUCCESS, result);
+
+        return new DataResult(ResponseCode.SUCCESS, accountService.accountRead(email));
     }
 
 
-    @Transactional
+
     @PutMapping("/account/{accountEmail}")
     public CommonResult accountUpdate(@PathVariable("accountEmail") String email,
                                       @RequestBody AccountUpdateRequest request) {
-        //accountService.accountUpdate(email, request);
-        Account findAccount = accountRepository.findByEmail(email);
-        findAccount.setPassword(request.getPassword());
-        findAccount.setImageUrl(request.getImageUrl());
-        findAccount.setNickname(request.getNickname());
-
-
-
+        accountService.accountUpdate(email, request);
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
