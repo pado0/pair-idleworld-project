@@ -43,7 +43,7 @@ public class Account extends BaseEntity {
     @JoinColumn(name="playlist_id")
     private PlayList playList;
 
-    @Enumerated(EnumType.STRING)
-    private AccountRole role;
+    //@Enumerated(EnumType.STRING)
+    private String role;
     //계정 등급 [ADMIN, NORMAL]
 }

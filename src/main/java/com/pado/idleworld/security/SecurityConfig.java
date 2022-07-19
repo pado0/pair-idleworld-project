@@ -1,6 +1,5 @@
 package com.pado.idleworld.security;
 
-import com.pado.idleworld.account.LoginIdPwValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    LoginIdPwValidator loginIdPwValidator;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -29,24 +26,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
                 //.anyRequest().authenticated(); // 나머지는 로그인을 해야 쓸 수 있다.
 
-        /*http.csrf().disable().authorizeRequests()
-                .antMatchers("/v1/sign-up","/v1/account/login").permitAll()
+
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/v1/sign-up","/v1/account/login").authenticated()
                 .antMatchers("/v1/account/{accountEmail}").hasRole("ADMIN")
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/v1/account/login")
+                //.usernameParameter("email")
                 .loginProcessingUrl("/v1/account/login")   //login 주소가 호출이 되면 시큐리티가 낚아채서 대신 로그인 진행
-                .defaultSuccessUrl("/view/loginSuccess.jsp",true)
+                .defaultSuccessUrl("/")
                 .permitAll()
                 .and()
                 .logout();*/
     }
 
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(loginIdPwValidator);
-    }
+
 
     @Override
     public void configure(WebSecurity web) {

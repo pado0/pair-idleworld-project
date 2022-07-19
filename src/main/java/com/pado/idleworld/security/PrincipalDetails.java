@@ -22,8 +22,7 @@ public class PrincipalDetails implements UserDetails {
         collect.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                return null;
-                //return account.getRole();
+                return account.getRole();
             }
         });
         return null;
@@ -31,31 +30,31 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return account.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return account.getEmail();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }
