@@ -1,4 +1,4 @@
-package com.pado.idleworld.topcategory;
+package com.pado.idleworld.category.topcategory;
 
 import com.pado.idleworld.domain.TopCategory;
 import lombok.RequiredArgsConstructor;

@@ -1,18 +1,17 @@
-package com.pado.idleworld.topcategory;
+package com.pado.idleworld.category.topcategory;
 
 import lombok.*;
 
-import javax.persistence.Entity;
 import javax.persistence.Lob;
-
 
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TopCategoryCreateRequest {
+public class TopCategoryUpdateRequest {
 
+    private Long id;
     private String title;
 
     @Lob

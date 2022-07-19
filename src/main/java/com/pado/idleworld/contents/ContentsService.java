@@ -1,16 +1,12 @@
 package com.pado.idleworld.contents;
 
-import com.pado.idleworld.basecategory.BaseCategoryRepository;
+import com.pado.idleworld.category.basecategory.BaseCategoryRepository;
 import com.pado.idleworld.domain.BaseCategory;
 import com.pado.idleworld.domain.BaseCategoryContents;
 import com.pado.idleworld.domain.Contents;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

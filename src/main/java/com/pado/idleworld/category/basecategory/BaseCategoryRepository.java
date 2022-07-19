@@ -1,4 +1,4 @@
-package com.pado.idleworld.basecategory;
+package com.pado.idleworld.category.basecategory;
 
 
 import com.pado.idleworld.domain.BaseCategory;

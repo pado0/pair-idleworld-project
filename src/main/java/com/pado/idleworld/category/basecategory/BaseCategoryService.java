@@ -1,15 +1,14 @@
-package com.pado.idleworld.basecategory;
+package com.pado.idleworld.category.basecategory;
 
 
+import com.pado.idleworld.category.midcategory.MidCategoryRepository;
+import com.pado.idleworld.category.topcategory.TopCategoryRepository;
 import com.pado.idleworld.domain.BaseCategory;
 import com.pado.idleworld.domain.MidCategory;
-import com.pado.idleworld.midcategory.MidCategoryRepository;
-import com.pado.idleworld.topcategory.TopCategoryRepository;
 import lombok.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Lob;
 import java.util.List;
 import java.util.stream.Collectors;
 

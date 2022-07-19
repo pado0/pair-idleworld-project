@@ -1,4 +1,4 @@
-package com.pado.idleworld.midcategory;
+package com.pado.idleworld.category.midcategory;
 
 
 import com.pado.idleworld.domain.TopCategory;

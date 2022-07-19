@@ -1,4 +1,4 @@
-package com.pado.idleworld.topcategory;
+package com.pado.idleworld.category.midcategory;
 
 import lombok.*;
 
@@ -9,11 +9,16 @@ import javax.persistence.Lob;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TopCategoryUpdateRequest {
+public class MidCategoryReadResponse {
 
     private Long id;
+
     private String title;
 
     @Lob
     private String imageUrl;
+    @Lob
+    private String videoUrl;
+    private String videoText;
+    private Long topCategoryId;
 }

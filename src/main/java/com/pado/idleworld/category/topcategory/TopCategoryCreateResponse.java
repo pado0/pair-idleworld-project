@@ -1,4 +1,4 @@
-package com.pado.idleworld.topcategory;
+package com.pado.idleworld.category.topcategory;
 
 import lombok.*;
 
