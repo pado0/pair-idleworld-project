@@ -9,9 +9,4 @@ import java.util.List;
 
 public interface ContentsRepository extends JpaRepository<Contents, Long> {
 
-    @Query("select c from Contents c" +
-            " join fetch c.baseCategoryContents bc" +
-            " join fetch bc.baseCategory b")
-    public List<Contents> findAllByBaseCategoryId(Long categoryId);
-
 }

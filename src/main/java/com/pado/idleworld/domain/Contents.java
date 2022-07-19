@@ -51,11 +51,4 @@ public class Contents extends BaseEntity {
         private List<Long> baseCategoryId;
     }
 
-    @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class Response{
-        private String title;
-        private String subtitle;
-    }
 }

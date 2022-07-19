@@ -18,6 +18,7 @@ public class ContentsController {
     private final ContentsService contentsService;
     private final ContentsRepository contentsRepository;
     private final BaseCategoryRepository baseCategoryRepository;
+    private final BaseCategoryContentsRepository baseCategoryContentsRepository;
 
     // todo: product 쪽 개발되면 세팅해주기
     @PostMapping("/contents")
@@ -30,8 +31,9 @@ public class ContentsController {
     // 카테고리 기준으로 하위 컨텐츠 조회
     @GetMapping("/{categoryId}/contents")
     public DataResult getContentsList(@PathVariable("categoryId") Long categoryId){
-        List<Contents> findContents = contentsRepository.findAllByBaseCategoryId(categoryId);
-        return new DataResult(ResponseCode.SUCCESS, findContents);
+
+        List<ContentsResponseDto> contentsResponseDto = baseCategoryContentsRepository.findContentsResponseDtoByBaseCategoryId(categoryId);
+        return new DataResult(ResponseCode.SUCCESS, contentsResponseDto);
     }
 
 
