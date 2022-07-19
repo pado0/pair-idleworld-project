@@ -7,6 +7,7 @@ import com.pado.idleworld.domain.Account;
 import com.pado.idleworld.exception.LoginInfoMismatchException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -25,8 +26,14 @@ public class AccountController {
     private final AccountRepository accountRepository;
     private final AccountService accountService;
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @PostMapping("/sign-up")
     public CommonResult accountSignUp(@RequestBody @Valid SignUpForm request) {
+        String rawPw = request.getPassword();
+        String encPw = bCryptPasswordEncoder.encode(rawPw);
+        request.setPassword(encPw);
+
         accountService.accountCreate(request);
 
         return new CommonResult(ResponseCode.SUCCESS);

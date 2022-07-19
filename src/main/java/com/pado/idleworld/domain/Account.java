@@ -2,10 +2,13 @@ package com.pado.idleworld.domain;
 
 import com.pado.idleworld.common.BaseEntity;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -39,4 +42,8 @@ public class Account extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="playlist_id")
     private PlayList playList;
+
+    @Enumerated(EnumType.STRING)
+    private AccountRole role;
+    //계정 등급 [ADMIN, NORMAL]
 }
