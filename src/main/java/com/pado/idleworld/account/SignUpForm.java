@@ -28,4 +28,6 @@ public class SignUpForm {
 
     private boolean agree;
 
+    private String role;
+
 }

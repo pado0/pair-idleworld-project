@@ -3,6 +3,7 @@ package com.pado.idleworld.account;
 import com.pado.idleworld.domain.Account;
 import com.pado.idleworld.exception.DuplicationElementException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccountService {
 
     private final AccountRepository accountRepository;
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
     public void accountUpdate(String email, AccountUpdateRequest request) {
@@ -24,12 +27,19 @@ public class AccountService {
     @Transactional
     public void accountCreate(SignUpForm request) {
         duplicationCheck(request.getEmail());
+
+        String rawPw = request.getPassword();
+        String encPw = bCryptPasswordEncoder.encode(rawPw);
+        request.setPassword(encPw);
+
+
         Account account = Account.builder()
                 .email(request.getEmail())
                 .password(request.getPassword())
                 .nickname(request.getNickname())
                 .imageUrl(request.getImageUrl())
                 .agree(request.isAgree())
+                .role(request.getRole())
                 .build();
         accountRepository.save(account);
     }

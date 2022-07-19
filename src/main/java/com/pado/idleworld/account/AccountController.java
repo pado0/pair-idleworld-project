@@ -26,14 +26,10 @@ public class AccountController {
     private final AccountRepository accountRepository;
     private final AccountService accountService;
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     @PostMapping("/sign-up")
     public CommonResult accountSignUp(@RequestBody @Valid SignUpForm request) {
-        String rawPw = request.getPassword();
-        String encPw = bCryptPasswordEncoder.encode(rawPw);
-        request.setPassword(encPw);
-
         accountService.accountCreate(request);
 
         return new CommonResult(ResponseCode.SUCCESS);
