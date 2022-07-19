@@ -23,7 +23,7 @@ public class Agreement {
 
 
     // DTO용 inner class 정의
-    @Getter
+    @Getter @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Request{
@@ -31,7 +31,7 @@ public class Agreement {
         private String subtitle;
     }
 
-    @Getter
+    @Getter @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Response{
