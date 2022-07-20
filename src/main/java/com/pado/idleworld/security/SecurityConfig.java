@@ -1,23 +1,24 @@
 package com.pado.idleworld.security;
 
+import com.pado.idleworld.security.oauth.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)  //secured 어노테이션 활성화(TestController.info()), preAuthorize, postAuthorize 어노테이션 활성화
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+
+
+    private final PrincipalOauth2UserService principalOauth2UserService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -44,7 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .and()
                 .oauth2Login()
-                .loginPage("/login");
+                .loginPage("/login")
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService);
     }
 
 
@@ -57,8 +60,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/h2-console/**");
     }
 
-    @Bean
-    public BCryptPasswordEncoder encodePwd() {
-        return new BCryptPasswordEncoder();
-    }
+
 }

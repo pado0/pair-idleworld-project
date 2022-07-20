@@ -27,6 +27,8 @@ public class SignUpForm {
     private String imageUrl;
 
     private boolean agree;
+    private String provider;
+    private String providerId;
 
 
 }

@@ -4,6 +4,7 @@ import com.pado.idleworld.account.AccountService;
 import com.pado.idleworld.domain.Account;
 import com.pado.idleworld.domain.AccountRole;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -31,6 +32,7 @@ public class InitDb {
     @Transactional
     @RequiredArgsConstructor
     static class InitService {
+
 
         private final BCryptPasswordEncoder bCryptPasswordEncoder;
 

@@ -47,4 +47,7 @@ public class Account extends BaseEntity {
     private AccountRole role;
     //계정 등급 [ADMIN, NORMAL]
 
+    private String provider;
+    private String providerId;
+
 }

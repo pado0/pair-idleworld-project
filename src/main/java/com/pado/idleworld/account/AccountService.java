@@ -28,6 +28,7 @@ public class AccountService {
     @Transactional
     public void accountCreate(SignUpForm request) {
         duplicationCheck(request.getEmail());
+
         String encPw = passwordEncoding(request.getPassword());
         request.setPassword(encPw);
 
@@ -38,7 +39,10 @@ public class AccountService {
                 .imageUrl(request.getImageUrl())
                 .agree(request.isAgree())
                 .role(AccountRole.ROLE_USER) //기본생성 USER로
+                .provider(request.getProvider())
+                .providerId(request.getProviderId())
                 .build();
+
         accountRepository.save(account);
     }
 
