@@ -14,6 +14,19 @@ spring:
         format_sql: true
         default_batch_fetch_size: 100
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 191344771154-pu8rlgno9e0t28qe421mdjo97ccsohjg.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
+
+
 logging.level:
   org.hibernate.SQL: debug
 #  org.hibernate.type: trace
+

@@ -2,10 +2,12 @@ package com.pado.idleworld.security;
 
 import com.pado.idleworld.domain.Account;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class PrincipalDetails implements UserDetails {
 
@@ -18,14 +20,10 @@ public class PrincipalDetails implements UserDetails {
     //Account의 권한을 리턴하는 곳
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> collect = new ArrayList<>();
-        collect.add(new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                return account.getRole();
-            }
-        });
-        return null;
+        List<GrantedAuthority> collect = new ArrayList<GrantedAuthority>();
+        collect.add(new SimpleGrantedAuthority(account.getRole().toString()));
+
+        return collect;
     }
 
     @Override

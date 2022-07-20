@@ -4,6 +4,7 @@ import com.pado.idleworld.account.AccountService;
 import com.pado.idleworld.domain.Account;
 import com.pado.idleworld.domain.AccountRole;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
-import static com.pado.idleworld.domain.AccountRole.ADMIN;
+import static com.pado.idleworld.domain.AccountRole.ROLE_ADMIN;
+
 
 @Component
 @RequiredArgsConstructor
@@ -35,12 +37,13 @@ public class InitDb {
         private final EntityManager em;
 
         public void dbInit1() {
-            Account account = createAccount("master@gmail.com", "11111111", "ADMIN");
+            Account account = createAccount("master@gmail.com", "11111111", ROLE_ADMIN);
             em.persist(account);
         }
 
 
-        private Account createAccount(String email, String password, String role) {
+
+        private Account createAccount(String email, String password, AccountRole role) {
             String rawPw = password;
             String encPw = bCryptPasswordEncoder.encode(rawPw);
             Account account = new Account();

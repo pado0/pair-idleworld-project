@@ -17,14 +17,12 @@ public class PrincipalDetailsService implements UserDetailsService {
     private AccountRepository accountRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        Account account = accountRepository.findByEmail(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Account account = accountRepository.findByEmail(email);
         if (account != null) {
             return new PrincipalDetails(account);
             //이게 시큐리티 세션 내부의 Authentication로 리턴됨
         }
-
         return null;
     }
 }
