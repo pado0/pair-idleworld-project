@@ -1,6 +1,7 @@
 package com.pado.idleworld.account;
 
 import com.pado.idleworld.domain.Account;
+import com.pado.idleworld.domain.AccountRole;
 import com.pado.idleworld.exception.DuplicationElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,10 +29,8 @@ public class AccountService {
     public void accountCreate(SignUpForm request) {
         duplicationCheck(request.getEmail());
 
-        String rawPw = request.getPassword();
-        String encPw = bCryptPasswordEncoder.encode(rawPw);
+        String encPw = passwordEncoding(request.getPassword());
         request.setPassword(encPw);
-
 
         Account account = Account.builder()
                 .email(request.getEmail())
@@ -39,8 +38,11 @@ public class AccountService {
                 .nickname(request.getNickname())
                 .imageUrl(request.getImageUrl())
                 .agree(request.isAgree())
-                .role(request.getRole())
+                .role(AccountRole.ROLE_USER) //기본생성 USER로
+                .provider(request.getProvider())
+                .providerId(request.getProviderId())
                 .build();
+
         accountRepository.save(account);
     }
 
@@ -48,6 +50,10 @@ public class AccountService {
         if(accountRepository.existsByEmail(email)) {
             throw new DuplicationElementException();
         }
+    }
+
+    public String passwordEncoding(String rawPassword) {
+        return bCryptPasswordEncoder.encode(rawPassword);
     }
 
     public AccountInfoResponse accountRead(String email) {

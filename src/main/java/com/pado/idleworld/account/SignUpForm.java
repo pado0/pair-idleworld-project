@@ -15,7 +15,7 @@ public class SignUpForm {
     @Length(min = 3, max = 20)
     private String email;
 
-    @NotBlank
+    //@NotBlank
     @Length(min = 3, max = 20)
     private String nickname;
 
@@ -27,7 +27,8 @@ public class SignUpForm {
     private String imageUrl;
 
     private boolean agree;
+    private String provider;
+    private String providerId;
 
-    private String role;
 
 }
