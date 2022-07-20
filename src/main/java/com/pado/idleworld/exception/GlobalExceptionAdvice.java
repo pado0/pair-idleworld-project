@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.util.NoSuchElementException;
 
@@ -34,6 +35,13 @@ public class GlobalExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public CommonResult handleLoginInfoMismatchException(LoginInfoMismatchException e) {
         return new CommonResult(ResponseCode.LOGIN_INFO_MISMATCH);
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    protected CommonResult handleMaxUploadSizeExceededException(
+            MaxUploadSizeExceededException e) {
+
+        return new CommonResult(ResponseCode.FAIL);
     }
 
 }

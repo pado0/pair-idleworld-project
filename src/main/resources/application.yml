@@ -13,6 +13,10 @@ spring:
         #        show_sql: true
         format_sql: true
         default_batch_fetch_size: 100
+  http:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
 
   security:
     oauth2:
@@ -25,8 +29,21 @@ spring:
               - email
               - profile
 
-
 logging.level:
   org.hibernate.SQL: debug
 #  org.hibernate.type: trace
+
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAVKFLGCJULIQ4NX23
+      secretKey: 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
+    stack:
+      auto: false
+    s3:
+      bucket: idleworld
+      #url: http://acs.amazonaws.com/groups/global/AllUsers
+    region:
+      static: ap-northeast-2
+
 
