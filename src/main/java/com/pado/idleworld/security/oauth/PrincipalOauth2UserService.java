@@ -46,7 +46,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             accountService.accountCreate(signUpForm);
 
         }
-
+        accountEntity = accountRepository.findByEmail(signUpForm.getEmail());
 
         return new PrincipalDetails(accountEntity, oAuth2User.getAttributes());
     }
