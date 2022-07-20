@@ -35,7 +35,8 @@ public class Contents extends BaseEntity {
     @JoinColumn(name = "playlist_id")
     private PlayList playList;
 
-    @OneToMany(mappedBy = "contents", cascade = CascadeType.ALL)
+    // baseCategory contents는 컨텐츠 등록시에만 생성되므로 cascade 설정
+    @OneToMany(mappedBy = "contents", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BaseCategoryContents> baseCategoryContents = new ArrayList<>();
 
     // DTO

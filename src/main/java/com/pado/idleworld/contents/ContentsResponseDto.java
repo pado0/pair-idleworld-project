@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ContentsResponseDto {
 
+        private Long id;
         private String title;
         private String subtitle;
         private String imageUrl;

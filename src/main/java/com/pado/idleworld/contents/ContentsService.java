@@ -44,7 +44,9 @@ public class ContentsService {
             baseCategoryContents.setBaseCategory(baseCategory);
 
             // content와 연관관계 맺기
-            // 이 .add 코드가 들어가야 baseCategory 엔티티가 영속화 되면서 db에 세팅된다.
+            // 이 .add 코드가 안들어가면 set한 컨텐츠가 1차 캐시에서 바로 튀어나옴.
+            // 이때 jpa가 fk도 모르고 값 세팅이 되지 않아서 조회가 안된다.
+            // 일단 add 해서 메모리에 넣어놓고 컨텐츠를 세팅해준다.
             // contents를 get해오면서 baseCategory도 cascade
             contents.getBaseCategoryContents().add(baseCategoryContents);
             baseCategoryContents.setContents(contents);
