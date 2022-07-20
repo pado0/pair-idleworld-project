@@ -40,7 +40,7 @@ public class Contents extends BaseEntity {
     private List<BaseCategoryContents> baseCategoryContents = new ArrayList<>();
 
     // DTO
-    @Getter
+    @Getter @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Request{
