@@ -2,12 +2,14 @@ package com.pado.idleworld.security;
 
 import com.pado.idleworld.security.oauth.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 
 @Configuration
@@ -19,6 +21,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private final PrincipalOauth2UserService principalOauth2UserService;
+
+    private final AuthenticationFailureHandler authenticationFailureHandler;    //로그인 실패 인터페이스
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -42,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/v1/account/login")   //왼쪽 url 호출이 되면 시큐리티가 낚아채서 대신 로그인 진행
                 .defaultSuccessUrl("/loginProc") //login 성공하면 가는 url (단, 최초에 다른페이지로 접속을 시도했으면 거기로 이동)
                 .permitAll()
+                .failureHandler(authenticationFailureHandler)   //로그인 실패시
                 .and()
                 .logout()
                 .and()
@@ -60,6 +66,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**")
                 .antMatchers("/h2-console/**");
     }
+
+    //실패처리를 위한 핸들러
+
 
 
 }
