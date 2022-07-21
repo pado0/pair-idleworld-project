@@ -39,21 +39,19 @@ public class AgreementController {
     }
 
     @PutMapping("/agreement/{id}")
-    @Transactional
     public CommonResult putAgreementPolicy(@RequestBody Agreement.Request agreementRequest,
                                            @PathVariable("id") Long id) {
 
         Optional<Agreement> agreement = agreementService.findAgreementById(id);
         if(agreement.isEmpty()) throw new NoSuchElementException();
 
-        agreement.get().setTitle(agreementRequest.getTitle());
-        agreement.get().setSubtitle(agreementRequest.getSubtitle());
+        agreementService.updateAgreement(agreementRequest, agreement);
 
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
+
     @DeleteMapping("/agreement/{id}")
-    @Transactional
     public CommonResult deleteAgreementPolicy(@PathVariable("id") Long id) {
 
         // todo : 이런 반복 로직들을 분리할 수 있을까?

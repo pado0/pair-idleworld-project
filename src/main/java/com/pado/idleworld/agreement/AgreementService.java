@@ -36,4 +36,10 @@ public class AgreementService {
     public void deleteAgreementById(Long id) {
         agreementRepository.deleteById(id);
     }
+
+    public void updateAgreement(Agreement.Request agreementRequest, Optional<Agreement> agreement) {
+        agreement.get().setTitle(agreementRequest.getTitle());
+        agreement.get().setSubtitle(agreementRequest.getSubtitle());
+    }
+
 }

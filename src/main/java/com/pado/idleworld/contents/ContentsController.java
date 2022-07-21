@@ -21,13 +21,8 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 public class ContentsController {
-
     private final ContentsService contentsService;
-    private final ContentsRepository contentsRepository;
-    private final BaseCategoryRepository baseCategoryRepository;
     private final BaseCategoryContentsRepository baseCategoryContentsRepository;
-    private final EntityManager em;
-    private final AwsS3Service awsS3Service;
 
     // todo: product 쪽 개발되면 세팅해주기
     @PostMapping("/v1/contents")
@@ -45,15 +40,7 @@ public class ContentsController {
                                               @RequestParam(value="baseCategoryId", required=false, defaultValue="") List<Long> baseCategoryIds,
                                               @RequestPart(value = "file") MultipartFile multipartFile){
 
-
-        String imageS3Url = awsS3Service.uploadFileV1(title, multipartFile);
-        Contents.Request contentsRequestDto = new Contents.Request();
-        contentsRequestDto.setTitle(title);
-        contentsRequestDto.setSubtitle(subtitle);
-        contentsRequestDto.setBaseCategoryId(baseCategoryIds);
-        contentsRequestDto.setProductId(productId);
-        contentsRequestDto.setImageUrl(imageS3Url);
-
+        Contents.Request contentsRequestDto = contentsService.createContentsRequestDto(title, subtitle, productId, baseCategoryIds, multipartFile);
         contentsService.createContents(contentsRequestDto);
         return new CommonResult(ResponseCode.SUCCESS);
     }
@@ -75,32 +62,17 @@ public class ContentsController {
     }
 
     // 컨텐츠 수정 - 카테고리 다시 다 입력받아야 함
-    @Transactional
     @PutMapping("/v1/contents/{contentsId}")
     public CommonResult putContentsContext(@RequestBody Contents.Request contentsRequestDto,
                                            @PathVariable("contentsId") Long contentsId){
-        Optional<Contents> findContents = contentsRepository.findById(contentsId);
-        findContents.get().setTitle(contentsRequestDto.getTitle());
-        findContents.get().setSubtitle(contentsRequestDto.getSubtitle());
-        //findContents.get().setImageUrl(contentsRequestDto.getImageUrl());
 
+        Optional<Contents> findContents = contentsService.getContentsByContentsId(contentsRequestDto, contentsId);
         List<BaseCategoryContents> baseCategoryContents = findContents.get().getBaseCategoryContents();
 
         // 부모고아 관계를 활용한 삭제
-        while (!baseCategoryContents.isEmpty()) {
-            baseCategoryContents.remove(0);
-        }
-
-        for (Long id : contentsRequestDto.getBaseCategoryId()) {
-            BaseCategory baseCategory = baseCategoryRepository.findOneById(id);
-
-            BaseCategoryContents bcc = new BaseCategoryContents();
-            bcc.setBaseCategory(baseCategory);
-
-            findContents.get().getBaseCategoryContents().add(bcc);
-            bcc.setContents(findContents.get());
-        }
-
+        contentsService.deleteAllRelatedBaseCategoryContents(baseCategoryContents);
+        // 수정으로 들어온 카테고리 다시 넣기
+        contentsService.saveNewCategoryRequest(contentsRequestDto, findContents);
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
@@ -109,11 +81,12 @@ public class ContentsController {
     @DeleteMapping("/v1/contents/{contentsId}")
     public CommonResult putContentsContext(@PathVariable("contentsId") Long contentsId){
 
-        Optional<Contents> findContents = contentsRepository.findById(contentsId);
-        contentsRepository.deleteById(findContents.get().getId());
+        contentsService.deleteContentsById(contentsId);
 
         return new CommonResult(ResponseCode.SUCCESS);
     }
+
+
 
 
 }

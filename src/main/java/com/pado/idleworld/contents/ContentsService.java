@@ -4,9 +4,14 @@ import com.pado.idleworld.category.basecategory.BaseCategoryRepository;
 import com.pado.idleworld.domain.BaseCategory;
 import com.pado.idleworld.domain.BaseCategoryContents;
 import com.pado.idleworld.domain.Contents;
+import com.pado.idleworld.infra.AwsS3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +20,7 @@ public class ContentsService {
 
     private final BaseCategoryRepository baseCategoryRepository;
     private final ContentsRepository contentsRepository;
+    private final AwsS3Service awsS3Service;
 
     public void createContents(Contents.Request contentsRequestDto) {
 
@@ -53,5 +59,48 @@ public class ContentsService {
         }
 
         contentsRepository.save(contents);
+    }
+
+    public Contents.Request createContentsRequestDto(String title, String subtitle, Long productId, List<Long> baseCategoryIds, MultipartFile multipartFile) {
+        String imageS3Url = awsS3Service.uploadFileV1(title, multipartFile);
+        Contents.Request contentsRequestDto = new Contents.Request();
+        contentsRequestDto.setTitle(title);
+        contentsRequestDto.setSubtitle(subtitle);
+        contentsRequestDto.setBaseCategoryId(baseCategoryIds);
+        contentsRequestDto.setProductId(productId);
+        contentsRequestDto.setImageUrl(imageS3Url);
+        return contentsRequestDto;
+    }
+
+
+    public void saveNewCategoryRequest(Contents.Request contentsRequestDto, Optional<Contents> findContents) {
+        for (Long id : contentsRequestDto.getBaseCategoryId()) {
+            BaseCategory baseCategory = baseCategoryRepository.findOneById(id);
+
+            BaseCategoryContents bcc = new BaseCategoryContents();
+            bcc.setBaseCategory(baseCategory);
+
+            findContents.get().getBaseCategoryContents().add(bcc);
+            bcc.setContents(findContents.get());
+        }
+    }
+
+    public void deleteAllRelatedBaseCategoryContents(List<BaseCategoryContents> baseCategoryContents) {
+        while (!baseCategoryContents.isEmpty()) {
+            baseCategoryContents.remove(0);
+        }
+    }
+
+    public Optional<Contents> getContentsByContentsId(Contents.Request contentsRequestDto, Long contentsId) {
+        Optional<Contents> findContents = contentsRepository.findById(contentsId);
+        findContents.get().setTitle(contentsRequestDto.getTitle());
+        findContents.get().setSubtitle(contentsRequestDto.getSubtitle());
+        //findContents.get().setImageUrl(contentsRequestDto.getImageUrl());
+        return findContents;
+    }
+
+    public void deleteContentsById(Long contentsId) {
+        Optional<Contents> findContents = contentsRepository.findById(contentsId);
+        contentsRepository.deleteById(findContents.get().getId());
     }
 }
