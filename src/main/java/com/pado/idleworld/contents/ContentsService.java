@@ -25,13 +25,6 @@ public class ContentsService {
     public void createContents(Contents.Request contentsRequestDto) {
 
         // 컨텐츠를 등록하려한다 = 주문을 하려고한다. (단, 주문 할 떄 아이템 여러개 받을 수 있음)
-        // todo: 여기서 contents는 비영속인데, 왜 빌더패턴으로 대체가 되지 않는지?
-//        Contents contents = Contents.builder()
-//                .title(contentsRequestDto.getTitle())
-//                .subtitle(contentsRequestDto.getSubtitle())
-//                .imageUrl(contentsRequestDto.getImageUrl())
-//                .build();
-
         // 컨텐츠 생성
         Contents contents = new Contents();
         contents.setTitle(contentsRequestDto.getTitle());
@@ -95,7 +88,7 @@ public class ContentsService {
         Optional<Contents> findContents = contentsRepository.findById(contentsId);
         findContents.get().setTitle(contentsRequestDto.getTitle());
         findContents.get().setSubtitle(contentsRequestDto.getSubtitle());
-        //findContents.get().setImageUrl(contentsRequestDto.getImageUrl());
+        findContents.get().setImageUrl(contentsRequestDto.getImageUrl());
         return findContents;
     }
 

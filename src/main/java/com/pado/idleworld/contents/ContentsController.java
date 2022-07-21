@@ -24,7 +24,6 @@ public class ContentsController {
     private final ContentsService contentsService;
     private final BaseCategoryContentsRepository baseCategoryContentsRepository;
 
-    // todo: product 쪽 개발되면 세팅해주기
     @PostMapping("/v1/contents")
     public CommonResult postContentsContext(@RequestBody Contents.Request contentsRequestDto){
 
@@ -76,8 +75,29 @@ public class ContentsController {
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
+    @PutMapping("/v2/contents/{contentsId}")
+    public CommonResult putContentsContextV2(@RequestParam String title,
+                                             @RequestParam String subtitle,
+                                             @RequestParam Long productId,
+                                             @RequestParam(value="baseCategoryId", required=false, defaultValue="") List<Long> baseCategoryIds,
+                                             @RequestPart(value = "file") MultipartFile multipartFile,
+                                             @PathVariable("contentsId") Long contentsId){
+
+
+        Contents.Request contentsRequestDto = contentsService.createContentsRequestDto(title, subtitle, productId, baseCategoryIds, multipartFile);
+        //contentsService.createContents(contentsRequestDto);
+
+        Optional<Contents> findContents = contentsService.getContentsByContentsId(contentsRequestDto, contentsId);
+        List<BaseCategoryContents> baseCategoryContents = findContents.get().getBaseCategoryContents();
+
+        // 부모고아 관계를 활용한 삭제
+        contentsService.deleteAllRelatedBaseCategoryContents(baseCategoryContents);
+        // 수정으로 들어온 카테고리 다시 넣기
+        contentsService.saveNewCategoryRequest(contentsRequestDto, findContents);
+        return new CommonResult(ResponseCode.SUCCESS);
+    }
+
     // 컨텐츠 삭제 - 컨텐츠 삭제시 baseCategory 내 관련 컨텐츠 데이터 모두 삭제 (고아객체)
-    @Transactional
     @DeleteMapping("/v1/contents/{contentsId}")
     public CommonResult putContentsContext(@PathVariable("contentsId") Long contentsId){
 
