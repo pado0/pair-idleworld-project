@@ -22,34 +22,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable() // todo: disable 하지말고 postman에서 토큰 처리하는 법 확인하기
+        /*http.csrf().disable() // todo: disable 하지말고 postman에서 토큰 처리하는 법 확인하기
                 .authorizeRequests()
                 // 그냥 허용할 응답들
                 .mvcMatchers("/**", "/index", "/login", "/sign-up", "/operation", "/operation/history", "/api/sign-up")
+                .permitAll();
+                //.anyRequest().authenticated(); // 나머지는 로그인을 해야 쓸 수 있다.
+        */
+
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/login", "/join", "/v1/sign-up").permitAll()
+                //.antMatchers("/v1/account/{accountEmail}").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/admin").access("hasRole('ADMIN')")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")    //접근권한 없으면 해당 url로 가는듯?
+                .usernameParameter("email")
+                .loginProcessingUrl("/v1/account/login")   //왼쪽 url 호출이 되면 시큐리티가 낚아채서 대신 로그인 진행
+                .defaultSuccessUrl("/loginProc") //login 성공하면 가는 url (단, 최초에 다른페이지로 접속을 시도했으면 거기로 이동)
                 .permitAll()
-                .anyRequest().permitAll(); // 개발테스트용으로 다 열어놓
-                //.authenticated(); // 나머지는 로그인을 해야 쓸 수 있다.
-//
-//
-//        http.csrf().disable().authorizeRequests()
-//                .antMatchers("/login", "/join", "/v1/sign-up").permitAll()
-//                //.antMatchers("/v1/account/{accountEmail}").access("hasRole('ROLE_ADMIN')")
-//                .antMatchers("/admin").access("hasRole('ADMIN')")
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")    //접근권한 없으면 해당 url로 가는듯?
-//                .usernameParameter("email")
-//                .loginProcessingUrl("/v1/account/login")   //왼쪽 url 호출이 되면 시큐리티가 낚아채서 대신 로그인 진행
-//                .defaultSuccessUrl("/loginProc") //login 성공하면 가는 url (단, 최초에 다른페이지로 접속을 시도했으면 거기로 이동)
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .and()
-//                .oauth2Login()
-//                .loginPage("/login")
-//                .userInfoEndpoint()
-//                .userService(principalOauth2UserService);
+                .and()
+                .logout()
+                .and()
+                .oauth2Login()
+                .loginPage("/login")
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService);
     }
 
 
