@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,10 +41,16 @@ public class BaseCategoryService {
 
     @Transactional
     public void updateBaseCategory(BaseCategoryUpdateRequest request) {
-        BaseCategory findBaseCategory = baseCategoryRepository.findOneById(request.getId());
+        Optional<BaseCategory> findBaseCategoryOptional = baseCategoryRepository.findById(request.getId());
+
+        if(findBaseCategoryOptional.isEmpty()) return; // 예외처리 필요
+
+        BaseCategory findBaseCategory = findBaseCategoryOptional.get();
         MidCategory findMidCategory = midCategoryRepository.findOneById(request.getMidCategoryId());
+
         findBaseCategory.setTitle(request.getTitle());
         findBaseCategory.setImageUrl(request.getImageUrl());
         findBaseCategory.setMidCategory(findMidCategory);
+
     }
 }

@@ -43,7 +43,7 @@ public class ContentsService {
         // 조회한 베이스 카테고리로 베이스 카테고리 컨텐츠 만들
         // orderItem을 여러개 생산하는 방식으로 가보자
         for (Long id : contentsRequestDto.getBaseCategoryId()) {
-            BaseCategory baseCategory = baseCategoryRepository.findOneById(id);
+            BaseCategory baseCategory = baseCategoryRepository.findById(id).get();
 
             // createBaseCategoryContents, contents와 베이스카테고리 컨텐츠 관계
             BaseCategoryContents baseCategoryContents = new BaseCategoryContents();
@@ -75,7 +75,7 @@ public class ContentsService {
 
     public void saveNewCategoryRequest(Contents.Request contentsRequestDto, Optional<Contents> findContents) {
         for (Long id : contentsRequestDto.getBaseCategoryId()) {
-            BaseCategory baseCategory = baseCategoryRepository.findOneById(id);
+            BaseCategory baseCategory = baseCategoryRepository.findById(id).get();
 
             BaseCategoryContents bcc = new BaseCategoryContents();
             bcc.setBaseCategory(baseCategory);
