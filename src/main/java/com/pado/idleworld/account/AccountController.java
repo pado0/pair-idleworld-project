@@ -35,6 +35,8 @@ public class AccountController {
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
+    /*
+    시큐리티 로그인 기능으로 삭제
     @GetMapping("/account/login")
     public CommonResult accountLogin(@RequestBody @Valid LoginForm loginForm) {
 
@@ -46,7 +48,7 @@ public class AccountController {
             throw new LoginInfoMismatchException();
         }
         return new CommonResult(ResponseCode.SUCCESS);
-    }
+    }*/
 
     //todo : playList 가져오면 널포인트
     @GetMapping("/account/{accountEmail}")
