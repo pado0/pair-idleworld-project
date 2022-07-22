@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ public class AgreementController {
     // Admin 이용 약관 내용 CRUD
 
     @PostMapping("/agreement")
-    public CommonResult postAgreementPolicy(@RequestBody Agreement.Request agreementRequestDto) {
+    public CommonResult postAgreementPolicy(@RequestBody @Valid Agreement.Request agreementRequestDto) {
 
         agreementService.createAgreementPolicy(agreementRequestDto);
 

@@ -50,4 +50,6 @@ public class Account extends BaseEntity {
     private String provider;
     private String providerId;
 
+    private Long watchCount;
+
 }

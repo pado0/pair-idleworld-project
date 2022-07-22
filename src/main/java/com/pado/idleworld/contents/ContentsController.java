@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +28,7 @@ public class ContentsController {
     private final BaseCategoryContentsRepository baseCategoryContentsRepository;
 
     @PostMapping("/v1/contents")
-    public CommonResult postContentsContext(@RequestBody Contents.Request contentsRequestDto){
+    public CommonResult postContentsContext(@RequestBody @Valid Contents.Request contentsRequestDto){
 
         contentsService.createContents(contentsRequestDto);
         return new CommonResult(ResponseCode.SUCCESS);
@@ -76,7 +79,7 @@ public class ContentsController {
 
     // 컨텐츠 수정 - 카테고리 다시 다 입력받아야 함
     @PutMapping("/v1/contents/{contentsId}")
-    public CommonResult putContentsContext(@RequestBody Contents.Request contentsRequestDto,
+    public CommonResult putContentsContext(@RequestBody @Valid Contents.Request contentsRequestDto,
                                            @PathVariable("contentsId") Long contentsId){
 
         Optional<Contents> findContents = contentsService.getContentsByContentsId(contentsRequestDto, contentsId);
