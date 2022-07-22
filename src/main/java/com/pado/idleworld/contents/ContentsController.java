@@ -32,17 +32,31 @@ public class ContentsController {
     }
 
     // aws 이미지 업로드 적용된 api
-    @PostMapping("/v2/contents")
-    public CommonResult postContentsContextV2(@RequestParam String title,
+//    @PostMapping("/v2/contents")
+//    public CommonResult postContentsContextV2(@RequestParam String title,
+//                                              @RequestParam String subtitle,
+//                                              @RequestParam Long productId,
+//                                              @RequestParam(value="baseCategoryId", required=false, defaultValue="") List<Long> baseCategoryIds,
+//                                              @RequestPart(value = "file") MultipartFile multipartFile){
+//
+//        Contents.Request contentsRequestDto = contentsService.createContentsRequestDto(title, subtitle, productId, baseCategoryIds, multipartFile);
+//        contentsService.createContents(contentsRequestDto);
+//        return new CommonResult(ResponseCode.SUCCESS);
+//    }
+
+    @PostMapping("/v3/contents")
+    public CommonResult postContentsContextV3(@RequestParam String title,
                                               @RequestParam String subtitle,
                                               @RequestParam Long productId,
                                               @RequestParam(value="baseCategoryId", required=false, defaultValue="") List<Long> baseCategoryIds,
-                                              @RequestPart(value = "file") MultipartFile multipartFile){
+                                              @RequestPart(value = "imageFile") MultipartFile multipartImageFile,
+                                              @RequestPart(value = "videoFile") MultipartFile multipartVideoFile){
 
-        Contents.Request contentsRequestDto = contentsService.createContentsRequestDto(title, subtitle, productId, baseCategoryIds, multipartFile);
+        Contents.Request contentsRequestDto = contentsService.createContentsRequestDto(title, subtitle, productId, baseCategoryIds, multipartImageFile, multipartVideoFile);
         contentsService.createContents(contentsRequestDto);
         return new CommonResult(ResponseCode.SUCCESS);
     }
+
 
     // 카테고리 기준으로 하위 컨텐츠 조회
     @GetMapping("/v1/{categoryId}/contents")
@@ -75,16 +89,17 @@ public class ContentsController {
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
-    @PutMapping("/v2/contents/{contentsId}")
+    @PutMapping("/v3/contents/{contentsId}")
     public CommonResult putContentsContextV2(@RequestParam String title,
                                              @RequestParam String subtitle,
                                              @RequestParam Long productId,
                                              @RequestParam(value="baseCategoryId", required=false, defaultValue="") List<Long> baseCategoryIds,
-                                             @RequestPart(value = "file") MultipartFile multipartFile,
+                                             @RequestPart(value = "imageFile") MultipartFile multipartImageFile,
+                                             @RequestPart(value = "videoFile") MultipartFile multipartVideoFile,
                                              @PathVariable("contentsId") Long contentsId){
 
 
-        Contents.Request contentsRequestDto = contentsService.createContentsRequestDto(title, subtitle, productId, baseCategoryIds, multipartFile);
+        Contents.Request contentsRequestDto = contentsService.createContentsRequestDto(title, subtitle, productId, baseCategoryIds, multipartImageFile, multipartVideoFile);
         //contentsService.createContents(contentsRequestDto);
 
         Optional<Contents> findContents = contentsService.getContentsByContentsId(contentsRequestDto, contentsId);

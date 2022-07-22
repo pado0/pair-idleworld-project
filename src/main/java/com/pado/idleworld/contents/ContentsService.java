@@ -30,6 +30,7 @@ public class ContentsService {
         contents.setTitle(contentsRequestDto.getTitle());
         contents.setSubtitle(contentsRequestDto.getSubtitle());
         contents.setImageUrl(contentsRequestDto.getImageUrl());
+        contents.setVideoUrl(contentsRequestDto.getVideoUrl());
 
 
         // 베이스 카테고리 조회
@@ -54,14 +55,17 @@ public class ContentsService {
         contentsRepository.save(contents);
     }
 
-    public Contents.Request createContentsRequestDto(String title, String subtitle, Long productId, List<Long> baseCategoryIds, MultipartFile multipartFile) {
-        String imageS3Url = awsS3Service.uploadFileV1(title, multipartFile);
+    public Contents.Request createContentsRequestDto(String title, String subtitle, Long productId, List<Long> baseCategoryIds, MultipartFile multipartImageFile, MultipartFile multipartVideoFile) {
+        String imageS3Url = awsS3Service.uploadFileV1(title, multipartImageFile);
+        String videoS3Url = awsS3Service.uploadFileV1(title, multipartVideoFile);
+
         Contents.Request contentsRequestDto = new Contents.Request();
         contentsRequestDto.setTitle(title);
         contentsRequestDto.setSubtitle(subtitle);
         contentsRequestDto.setBaseCategoryId(baseCategoryIds);
         contentsRequestDto.setProductId(productId);
         contentsRequestDto.setImageUrl(imageS3Url);
+        contentsRequestDto.setVideoUrl(videoS3Url);
         return contentsRequestDto;
     }
 

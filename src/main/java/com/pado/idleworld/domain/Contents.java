@@ -39,6 +39,9 @@ public class Contents extends BaseEntity {
     @OneToMany(mappedBy = "contents", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BaseCategoryContents> baseCategoryContents = new ArrayList<>();
 
+    @Lob
+    private String videoUrl;
+
     // DTO
     @Getter @Setter
     @AllArgsConstructor
@@ -50,6 +53,7 @@ public class Contents extends BaseEntity {
         private Long productId;
         // todo: 일단 해보고 list로 전
         private List<Long> baseCategoryId;
+        private String videoUrl;
     }
 
 }

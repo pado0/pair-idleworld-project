@@ -14,4 +14,5 @@ public class ContentsResponseDto {
         private String title;
         private String subtitle;
         private String imageUrl;
+        private String videoUrl;
 }
