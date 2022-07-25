@@ -39,19 +39,22 @@ public class InitDb {
         private final EntityManager em;
 
         public void dbInit1() {
-            Account account = createAccount("master@gmail.com", "11111111", ROLE_ADMIN);
+            Account account = createAccount("master@gmail.com", "11111111", "닉네임 1",ROLE_ADMIN);
             em.persist(account);
         }
 
 
 
-        private Account createAccount(String email, String password, AccountRole role) {
+        private Account createAccount(String email, String password,String nickname ,AccountRole role) {
             String rawPw = password;
             String encPw = bCryptPasswordEncoder.encode(rawPw);
-            Account account = new Account();
-            account.setEmail(email);
-            account.setPassword(encPw);
-            account.setRole(role);
+            Account account = Account.builder()
+                    .email(email)
+                    .password(encPw)
+                    .nickname(nickname)
+                    .role(role)
+                    .build();
+
             return account;
         }
     }

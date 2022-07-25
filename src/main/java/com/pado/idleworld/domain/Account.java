@@ -2,11 +2,14 @@ package com.pado.idleworld.domain;
 
 import com.pado.idleworld.common.BaseEntity;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,10 +28,17 @@ public class Account extends BaseEntity {
     private Long id;
 
     @Email
+    @NotBlank
+    @Length(min = 3, max = 20)
     private String email;
 
+    @NotBlank
+    //@Length(min = 8, max = 20)
     private String password;
 
+    @NotBlank
+    @Length(min = 3, max = 20)
+    @Pattern(regexp = "^[a-zA-z\\d가-힣]+\\s?[a-zA-z\\d가-힣]+$")
     private String nickname;
 
     @Lob

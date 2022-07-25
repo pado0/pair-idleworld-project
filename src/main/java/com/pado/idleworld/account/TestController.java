@@ -57,25 +57,5 @@ public class TestController {
     }
 
 
-    @PostMapping("/sendEmail")
-    public String sendEmail(@RequestParam("memberEmail") String memberEmail) {
-        MailDTO dto = accountService.createMailAndChangePassword(memberEmail);
-        accountService.mailSend(dto);
 
-        return "account/login";
-    }
-
-    @Secured("ROLE_ADMIN")
-    @PostMapping("/account/role/admin")
-    public CommonResult roleAdmin(@RequestParam("memberEmail") String memberEmail) {
-        accountService.roleAdmin(memberEmail);
-        return new CommonResult(ResponseCode.SUCCESS);
-    }
-
-    @Secured("ROLE_ADMIN")
-    @PostMapping("/account/role/user")
-    public CommonResult roleUser(@RequestParam("memberEmail") String memberEmail) {
-        accountService.roleUser(memberEmail);
-        return new CommonResult(ResponseCode.SUCCESS);
-    }
 }

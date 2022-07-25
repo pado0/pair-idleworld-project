@@ -1,5 +1,6 @@
 package com.pado.idleworld.account;
 
+import com.pado.idleworld.account.mail.MailDTO;
 import com.pado.idleworld.common.CommonResult;
 import com.pado.idleworld.common.DataResult;
 import com.pado.idleworld.common.ResponseCode;
@@ -7,6 +8,7 @@ import com.pado.idleworld.domain.Account;
 import com.pado.idleworld.exception.LoginInfoMismatchException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,6 +68,27 @@ public class AccountController {
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
+    @PostMapping("/sendEmail")
+    public String sendEmail(@RequestParam("memberEmail") String memberEmail) {
+        MailDTO dto = accountService.createMailAndChangePassword(memberEmail);
+        accountService.mailSend(dto);
+
+        return "account/login";
+    }
+
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/account/role/admin")
+    public CommonResult roleAdmin(@RequestParam("memberEmail") String memberEmail) {
+        accountService.roleAdmin(memberEmail);
+        return new CommonResult(ResponseCode.SUCCESS);
+    }
+
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/account/role/user")
+    public CommonResult roleUser(@RequestParam("memberEmail") String memberEmail) {
+        accountService.roleUser(memberEmail);
+        return new CommonResult(ResponseCode.SUCCESS);
+    }
 
 
 
