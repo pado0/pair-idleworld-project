@@ -1,6 +1,8 @@
 package com.pado.idleworld.account;
 
 import com.pado.idleworld.account.mail.MailDTO;
+import com.pado.idleworld.common.CommonResult;
+import com.pado.idleworld.common.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -61,5 +63,19 @@ public class TestController {
         accountService.mailSend(dto);
 
         return "account/login";
+    }
+
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/account/role/admin")
+    public CommonResult roleAdmin(@RequestParam("memberEmail") String memberEmail) {
+        accountService.roleAdmin(memberEmail);
+        return new CommonResult(ResponseCode.SUCCESS);
+    }
+
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/account/role/user")
+    public CommonResult roleUser(@RequestParam("memberEmail") String memberEmail) {
+        accountService.roleUser(memberEmail);
+        return new CommonResult(ResponseCode.SUCCESS);
     }
 }

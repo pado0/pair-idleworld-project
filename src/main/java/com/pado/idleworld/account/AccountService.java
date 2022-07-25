@@ -75,9 +75,7 @@ public class AccountService {
 
     @Transactional
     public MailDTO createMailAndChangePassword(String memberEmail) {
-        if(!accountRepository.existsByEmail(memberEmail)) {
-            throw new AccountNotExistException();
-        }
+        checkEmail(memberEmail);
 
         String tempStr = getTempPassword();
         String str = passwordEncoding(tempStr);
@@ -90,6 +88,12 @@ public class AccountService {
         + " 로그인 후에 비밀번호를 변경해 주세요.");
         updatePassword(str, memberEmail);
         return dto;
+    }
+
+    private void checkEmail(String memberEmail) {
+        if(!accountRepository.existsByEmail(memberEmail)) {
+            throw new AccountNotExistException();
+        }
     }
 
     public String getTempPassword(){
@@ -124,6 +128,20 @@ public class AccountService {
         message.setReplyTo("idleworld8080@naver.com");
         System.out.println("message"+message);
         mailSender.send(message);
+    }
+
+    @Transactional
+    public void roleAdmin(String email) {
+        checkEmail(email);
+        Account findAccount = accountRepository.findByEmail(email);
+        findAccount.setRole(AccountRole.ROLE_ADMIN);
+    }
+
+    @Transactional
+    public void roleUser(String email) {
+        checkEmail(email);
+        Account findAccount = accountRepository.findByEmail(email);
+        findAccount.setRole(AccountRole.ROLE_USER);
     }
 
 }
