@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers("/**", "/index", "/login", "/sign-up", "/operation", "/operation/history", "/api/sign-up")
                 .permitAll();
                 //.anyRequest().authenticated(); // 나머지는 로그인을 해야 쓸 수 있다.
-        */
+*/
 
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/login", "/join", "/v1/sign-up","/change-password","/sendEmail/**").permitAll()
@@ -55,6 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .userInfoEndpoint()
                 .userService(principalOauth2UserService);
+
+
     }
 
 

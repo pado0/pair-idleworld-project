@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,9 @@ public class BaseCategoryService {
     @Transactional
     public void createBaseCategory(BaseCategoryCreateRequest request) {
         MidCategory findMidCategory = midCategoryRepository.findOneById(request.getMidCategoryId());
+
+        if(findMidCategory == null) throw new NoSuchElementException();
+
         BaseCategory baseCategory = BaseCategory.builder()
                 .title(request.getTitle())
                 .imageUrl(request.getImageUrl())

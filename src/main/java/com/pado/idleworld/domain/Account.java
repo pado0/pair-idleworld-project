@@ -50,6 +50,7 @@ public class Account extends BaseEntity {
     private String provider;
     private String providerId;
 
+
     private boolean blocked;
     private int failCount;
 
@@ -59,6 +60,9 @@ public class Account extends BaseEntity {
 
 
 
+
+
+    private Long watchCount;
 
 
 }

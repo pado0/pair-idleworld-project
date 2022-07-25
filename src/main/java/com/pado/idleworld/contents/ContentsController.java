@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,26 +27,39 @@ public class ContentsController {
     private final ContentsService contentsService;
     private final BaseCategoryContentsRepository baseCategoryContentsRepository;
 
-    // todo: product 쪽 개발되면 세팅해주기
     @PostMapping("/v1/contents")
-    public CommonResult postContentsContext(@RequestBody Contents.Request contentsRequestDto){
+    public CommonResult postContentsContext(@RequestBody @Valid Contents.Request contentsRequestDto){
 
         contentsService.createContents(contentsRequestDto);
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
     // aws 이미지 업로드 적용된 api
-    @PostMapping("/v2/contents")
-    public CommonResult postContentsContextV2(@RequestParam String title,
+//    @PostMapping("/v2/contents")
+//    public CommonResult postContentsContextV2(@RequestParam String title,
+//                                              @RequestParam String subtitle,
+//                                              @RequestParam Long productId,
+//                                              @RequestParam(value="baseCategoryId", required=false, defaultValue="") List<Long> baseCategoryIds,
+//                                              @RequestPart(value = "file") MultipartFile multipartFile){
+//
+//        Contents.Request contentsRequestDto = contentsService.createContentsRequestDto(title, subtitle, productId, baseCategoryIds, multipartFile);
+//        contentsService.createContents(contentsRequestDto);
+//        return new CommonResult(ResponseCode.SUCCESS);
+//    }
+
+    @PostMapping("/v3/contents")
+    public CommonResult postContentsContextV3(@RequestParam String title,
                                               @RequestParam String subtitle,
                                               @RequestParam Long productId,
                                               @RequestParam(value="baseCategoryId", required=false, defaultValue="") List<Long> baseCategoryIds,
-                                              @RequestPart(value = "file") MultipartFile multipartFile){
+                                              @RequestPart(value = "imageFile") MultipartFile multipartImageFile,
+                                              @RequestPart(value = "videoFile") MultipartFile multipartVideoFile){
 
-        Contents.Request contentsRequestDto = contentsService.createContentsRequestDto(title, subtitle, productId, baseCategoryIds, multipartFile);
+        Contents.Request contentsRequestDto = contentsService.createContentsRequestDto(title, subtitle, productId, baseCategoryIds, multipartImageFile, multipartVideoFile);
         contentsService.createContents(contentsRequestDto);
         return new CommonResult(ResponseCode.SUCCESS);
     }
+
 
     // 카테고리 기준으로 하위 컨텐츠 조회
     @GetMapping("/v1/{categoryId}/contents")
@@ -63,7 +79,7 @@ public class ContentsController {
 
     // 컨텐츠 수정 - 카테고리 다시 다 입력받아야 함
     @PutMapping("/v1/contents/{contentsId}")
-    public CommonResult putContentsContext(@RequestBody Contents.Request contentsRequestDto,
+    public CommonResult putContentsContext(@RequestBody @Valid Contents.Request contentsRequestDto,
                                            @PathVariable("contentsId") Long contentsId){
 
         Optional<Contents> findContents = contentsService.getContentsByContentsId(contentsRequestDto, contentsId);
@@ -76,8 +92,30 @@ public class ContentsController {
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
+    @PutMapping("/v3/contents/{contentsId}")
+    public CommonResult putContentsContextV2(@RequestParam String title,
+                                             @RequestParam String subtitle,
+                                             @RequestParam Long productId,
+                                             @RequestParam(value="baseCategoryId", required=false, defaultValue="") List<Long> baseCategoryIds,
+                                             @RequestPart(value = "imageFile") MultipartFile multipartImageFile,
+                                             @RequestPart(value = "videoFile") MultipartFile multipartVideoFile,
+                                             @PathVariable("contentsId") Long contentsId){
+
+
+        Contents.Request contentsRequestDto = contentsService.createContentsRequestDto(title, subtitle, productId, baseCategoryIds, multipartImageFile, multipartVideoFile);
+        //contentsService.createContents(contentsRequestDto);
+
+        Optional<Contents> findContents = contentsService.getContentsByContentsId(contentsRequestDto, contentsId);
+        List<BaseCategoryContents> baseCategoryContents = findContents.get().getBaseCategoryContents();
+
+        // 부모고아 관계를 활용한 삭제
+        contentsService.deleteAllRelatedBaseCategoryContents(baseCategoryContents);
+        // 수정으로 들어온 카테고리 다시 넣기
+        contentsService.saveNewCategoryRequest(contentsRequestDto, findContents);
+        return new CommonResult(ResponseCode.SUCCESS);
+    }
+
     // 컨텐츠 삭제 - 컨텐츠 삭제시 baseCategory 내 관련 컨텐츠 데이터 모두 삭제 (고아객체)
-    @Transactional
     @DeleteMapping("/v1/contents/{contentsId}")
     public CommonResult putContentsContext(@PathVariable("contentsId") Long contentsId){
 

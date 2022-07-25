@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Getter @Setter
@@ -27,6 +29,8 @@ public class Agreement {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Request{
+
+        @Min(value = 3)
         private String title;
         private String subtitle;
     }

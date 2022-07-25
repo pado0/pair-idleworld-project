@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional(readOnly = true)
@@ -20,7 +21,7 @@ public class MidCategoryService {
     @Transactional
     public void createMidCategory(MidCategoryCreateRequest request) {
         TopCategory findTopCategory = topCategoryRepository.findOneById(request.getTopCategoryId());
-
+        if (findTopCategory == null) throw new NoSuchElementException();
         MidCategory midCategory = MidCategory.builder()
                 .title(request.getTitle())
                 .imageUrl(request.getImageUrl())
