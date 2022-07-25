@@ -51,4 +51,10 @@ public class GlobalExceptionAdvice {
         return new CommonResult(ResponseCode.ACCOUNT_LOCKED_BY_LOGIN_FAIL);
     }
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public CommonResult handlerAccountNotExistException(AccountNotExistException e) {
+        return new CommonResult(ResponseCode.ACCOUNT_NOT_EXISTS);
+    }
+
 }

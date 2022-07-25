@@ -3,6 +3,7 @@ package com.pado.idleworld.account;
 import com.pado.idleworld.account.mail.MailDTO;
 import com.pado.idleworld.domain.Account;
 import com.pado.idleworld.domain.AccountRole;
+import com.pado.idleworld.exception.AccountNotExistException;
 import com.pado.idleworld.exception.DuplicationElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -74,6 +75,10 @@ public class AccountService {
 
     @Transactional
     public MailDTO createMailAndChangePassword(String memberEmail) {
+        if(!accountRepository.existsByEmail(memberEmail)) {
+            throw new AccountNotExistException();
+        }
+
         String tempStr = getTempPassword();
         String str = passwordEncoding(tempStr);
 
