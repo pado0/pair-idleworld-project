@@ -4,6 +4,7 @@ import com.pado.idleworld.common.CommonResult;
 import com.pado.idleworld.common.ResponseCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
@@ -42,6 +43,12 @@ public class GlobalExceptionAdvice {
             MaxUploadSizeExceededException e) {
 
         return new CommonResult(ResponseCode.FAIL);
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public CommonResult handlerAccountLockedByLoginFailException(AccountLockedByLoginFailException e) {
+        return new CommonResult(ResponseCode.ACCOUNT_LOCKED_BY_LOGIN_FAIL);
     }
 
 }

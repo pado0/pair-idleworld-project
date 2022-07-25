@@ -2,6 +2,7 @@ package com.pado.idleworld.security;
 
 import com.pado.idleworld.account.AccountRepository;
 import com.pado.idleworld.domain.Account;
+import com.pado.idleworld.exception.AccountLockedByLoginFailException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
@@ -35,11 +36,10 @@ public class AccountLoginSuccessHandler implements AuthenticationSuccessHandler 
 
         Account findAccount = accountRepository.findByEmail(account.getEmail());
         if (findAccount.getFailCount() >= 3) {
-            throw new LockedException("계정이 잠겼습니다. 비밀번호 찾기 후 로그인 해주세요.");
+            throw new AccountLockedByLoginFailException();
         } else {
             findAccount.setFailCount(0);
         }
-        //https://velog.io/@cjsworbehd13/Spring-Security-%EA%B3%84%EC%A0%95-%EC%A0%95%EC%A7%80-%EA%B8%B0%EB%8A%A5-1
 
 
         SavedRequest savedRequest = requestCache.getRequest(request, response);

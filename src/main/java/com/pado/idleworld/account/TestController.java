@@ -1,17 +1,19 @@
 package com.pado.idleworld.account;
 
+import com.pado.idleworld.account.mail.MailDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
 public class TestController {
+
+    private final AccountService accountService;
 
     @GetMapping("/join")
     public String join() {
@@ -46,4 +48,18 @@ public class TestController {
         return "데이터정보";
     }
 
+
+    @GetMapping("/change-password")
+    public String changePassword() {
+        return "account/change-password";
+    }
+
+
+    @PostMapping("/sendEmail")
+    public String sendEmail(@RequestParam("memberEmail") String memberEmail) {
+        MailDTO dto = accountService.createMailAndChangePassword(memberEmail);
+        accountService.mailSend(dto);
+
+        return "account/login";
+    }
 }
