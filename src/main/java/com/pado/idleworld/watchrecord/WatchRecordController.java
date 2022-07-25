@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RestController
@@ -41,6 +42,7 @@ public class WatchRecordController {
         // 해당 회원의 시청이력을 watchrecord 테이블에 업데이트한다. 어떤 컨텐츠를, 몇 회 봤는지.
         WatchRecord watchRecord = new WatchRecord();
         watchRecord.setContents(findContents.get());
+        watchRecord.setExpiredAt(LocalDateTime.now());
 
         // 아직 메모리에 밖에 없으므로 메모리에 watchRecord 를 세팅해준다.
         findAccount.getWatchRecords().add(watchRecord);
@@ -49,10 +51,11 @@ public class WatchRecordController {
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
-    // 이쪽 쿼리만 잘짜면 된다!!
+    // todo: 이쪽 쿼리만 잘짜면 된다!!
     @GetMapping("/v1/watch-record")
     public String recordGet(Principal principal) {
-        Long count = watchRecordRepository.findByAccountId(accountRepository.findByEmail(principal.getName()).getId());
+        Account findAccount = accountRepository.findByEmail(principal.getName());
+        Long count = watchRecordRepository.findByAccountId(findAccount.getId());
         return count.toString();
     }
 

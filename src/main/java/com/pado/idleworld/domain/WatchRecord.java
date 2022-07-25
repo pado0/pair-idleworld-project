@@ -3,6 +3,7 @@ package com.pado.idleworld.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class WatchRecord {
+public class WatchRecord{
 
     @Id @GeneratedValue
     private Long id;
@@ -23,4 +24,5 @@ public class WatchRecord {
     @JoinColumn(name = "contents_id")
     private Contents contents;
 
+    private LocalDateTime expiredAt;
 }
