@@ -50,4 +50,7 @@ public class Account extends BaseEntity {
     private String provider;
     private String providerId;
 
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WatchRecord> watchRecords = new ArrayList<>();
+
 }
