@@ -55,7 +55,6 @@ public class AgreementController {
     @DeleteMapping("/agreement/{id}")
     public CommonResult deleteAgreementPolicy(@PathVariable("id") Long id) {
 
-        // todo : 이런 반복 로직들을 분리할 수 있을까?
         Optional<Agreement> agreement = agreementService.findAgreementById(id);
         if(agreement.isEmpty()) throw new NoSuchElementException();
 

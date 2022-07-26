@@ -29,8 +29,6 @@ public class Agreement {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Request{
-
-        @Min(value = 3)
         private String title;
         private String subtitle;
     }

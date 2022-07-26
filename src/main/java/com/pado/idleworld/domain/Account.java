@@ -70,9 +70,10 @@ public class Account extends BaseEntity {
 
 
 
-
-
     private Long watchCount;
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WatchRecord> watchRecords = new ArrayList<>();
+
 
 
 }

@@ -50,7 +50,6 @@ public class Contents extends BaseEntity {
     @NoArgsConstructor
     public static class Request{
 
-        @Min(value = 3)
         private String title;
 
         @NotBlank
@@ -60,7 +59,6 @@ public class Contents extends BaseEntity {
 
         private Long productId;
 
-        // todo: 일단 해보고 list로 전
         private List<Long> baseCategoryId;
 
         private String videoUrl;

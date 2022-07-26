@@ -3,6 +3,7 @@ package com.pado.idleworld.agreement;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pado.idleworld.domain.Agreement;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -39,6 +40,12 @@ class AgreementControllerTest {
 
     @Autowired
     private AgreementService agreementService;
+
+//    @BeforeEach
+//    void 회원로그인(){
+//
+//    }
+
 
     @Test
     void 이용약관_등록_성공() throws Exception {
