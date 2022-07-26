@@ -3,12 +3,16 @@ package com.pado.idleworld.contents;
 import com.pado.idleworld.category.basecategory.BaseCategoryRepository;
 import com.pado.idleworld.common.CommonResult;
 import com.pado.idleworld.common.DataResult;
+import com.pado.idleworld.common.PageResult;
 import com.pado.idleworld.common.ResponseCode;
 import com.pado.idleworld.domain.BaseCategory;
 import com.pado.idleworld.domain.BaseCategoryContents;
 import com.pado.idleworld.domain.Contents;
 import com.pado.idleworld.infra.AwsS3Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,6 +67,22 @@ public class ContentsController {
         List<ContentsResponseDto> contentsResponseDtos = baseCategoryContentsRepository.findContentsResponseDto();
         return new DataResult(ResponseCode.SUCCESS, contentsResponseDtos);
     }
+
+    // 컨텐츠 전체 조회 with paging
+    @GetMapping("/v2/contents")
+    public PageResult getAllContentsV2(@RequestParam int page,
+                                         @RequestParam int size){
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<ContentsResponseDto> contentsResponseDtos = baseCategoryContentsRepository.findContentsResponseDtoWithPaging(pageRequest);
+
+
+    return new PageResult(ResponseCode.SUCCESS, contentsResponseDtos.get(),
+            contentsResponseDtos.getPageable().getPageNumber(),
+            contentsResponseDtos.getPageable().getPageSize(),
+            contentsResponseDtos.getTotalPages());
+    }
+
 
     // 컨텐츠 수정 - 카테고리 다시 다 입력받아야 함
     @PutMapping("/v1/contents/{contentsId}")

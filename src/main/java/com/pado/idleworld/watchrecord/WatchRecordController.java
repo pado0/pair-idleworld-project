@@ -64,15 +64,15 @@ public class WatchRecordController {
     // todo: 이쪽 쿼리만 잘짜면 된다!!
     @Transactional
     @GetMapping("/v1/watch-record")
-    public DataResult recordGet(Principal principal) {
+    public DataResult recordGet(Principal principal) { // repo 조회시마다 쿼리 총 네개 나감
 
         // 계정정보 읽어와서
         Account findAccount = accountRepository.findByEmail(principal.getName());
 
         // watchRecordList 중 만료되지 않은 것 다 읽어옴 (쿼리로 반영, where isExpired = false)
-        List<WatchRecord> watchRecordList = watchRecordRepository.findByAccountId(findAccount.getId());
+        List<WatchRecord> watchRecordList = watchRecordRepository.findByAccountIdWhereBoolFalse(findAccount.getId());
 
-        // 지금 시간과 만료시간 비교해서 만료처리 필요한지 확인.
+        // 지금 시간과 만료시간 비교해서 만료처리 필요한지 확인. set할 때 flush 됨
         for (WatchRecord watchRecord : watchRecordList) {
             // 만료라면 true로 변경
             if ( watchRecord.getExpiredAt().isBefore(LocalDateTime.now()) ){
@@ -80,13 +80,14 @@ public class WatchRecordController {
             }
         }
 
-        // 만료처리 필요한것은 만료로 바꾸고, 다시 읽어옴
+        // 만료처리 필요한것은 만료로 바꾸고, 다시 읽어옴. 보통 이런 만료처리는 어느 시점에, 누가 주체로 하는지 찾아보기.
         List<WatchRecord> expiredProcessedWatchRecord = watchRecordRepository.findByAccountIdWhereBoolFalse(findAccount.getId());
 
         // dto로 목록 내려주기.
         List<WatchRecordResponseDto> watchRecordResponseDtos = new ArrayList<>();
 
         for (WatchRecord watchRecord : expiredProcessedWatchRecord) {
+            // 이 아래서 getContents 할 때 영속성 컨텍스트에 관리됨
             watchRecordResponseDtos.add(new WatchRecordResponseDto(watchRecord.getContents().getId(), watchRecord.getContents().getTitle(),
                     watchRecord.getExpiredAt(), watchRecord.isWatchRecordExpired()));
         }

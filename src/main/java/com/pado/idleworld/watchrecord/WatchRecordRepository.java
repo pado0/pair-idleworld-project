@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface WatchRecordRepository extends JpaRepository<WatchRecord, Long> {
     List<WatchRecord> findByAccountId(Long accountId);
+
     @Query("select w from WatchRecord w where w.account.id = :account_id and w.isWatchRecordExpired = false")
     List<WatchRecord> findByAccountIdWhereBoolFalse(@Param("account_id")Long accountId);
 }
