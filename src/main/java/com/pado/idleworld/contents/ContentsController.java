@@ -34,19 +34,6 @@ public class ContentsController {
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
-    // aws 이미지 업로드 적용된 api
-//    @PostMapping("/v2/contents")
-//    public CommonResult postContentsContextV2(@RequestParam String title,
-//                                              @RequestParam String subtitle,
-//                                              @RequestParam Long productId,
-//                                              @RequestParam(value="baseCategoryId", required=false, defaultValue="") List<Long> baseCategoryIds,
-//                                              @RequestPart(value = "file") MultipartFile multipartFile){
-//
-//        Contents.Request contentsRequestDto = contentsService.createContentsRequestDto(title, subtitle, productId, baseCategoryIds, multipartFile);
-//        contentsService.createContents(contentsRequestDto);
-//        return new CommonResult(ResponseCode.SUCCESS);
-//    }
-
     @PostMapping("/v3/contents")
     public CommonResult postContentsContextV3(@RequestParam String title,
                                               @RequestParam String subtitle,
@@ -123,8 +110,6 @@ public class ContentsController {
 
         return new CommonResult(ResponseCode.SUCCESS);
     }
-
-
 
 
 }

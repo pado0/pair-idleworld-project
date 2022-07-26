@@ -25,4 +25,6 @@ public class WatchRecord{
     private Contents contents;
 
     private LocalDateTime expiredAt;
+
+    private boolean isWatchRecordExpired;
 }
