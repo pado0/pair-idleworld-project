@@ -39,12 +39,10 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         signUpForm.setProviderId(providerId);
         signUpForm.setNickname(nickname);
 
-        Account accountEntity = accountRepository.findByEmail(signUpForm.getEmail());
-
-        if (accountEntity == null) {
+        if (accountRepository.findByEmail(signUpForm.getEmail()) == null) {
             accountService.accountCreate(signUpForm);
         }
-        accountEntity = accountRepository.findByEmail(signUpForm.getEmail());
+        Account accountEntity = accountRepository.findByEmail(signUpForm.getEmail());
 
         return new PrincipalDetails(accountEntity, oAuth2User.getAttributes());
     }

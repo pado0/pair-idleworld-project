@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Lob;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -15,7 +16,7 @@ public class SignUpForm {
     @Length(min = 3, max = 20)
     private String email;
 
-    //@NotBlank
+    @NotBlank
     @Length(min = 3, max = 20)
     private String nickname;
 
@@ -26,6 +27,7 @@ public class SignUpForm {
     @Lob
     private String imageUrl;
 
+    @AssertTrue
     private boolean agree;
     private String provider;
     private String providerId;

@@ -2,6 +2,7 @@ package com.pado.idleworld.security;
 
 import com.pado.idleworld.account.AccountRepository;
 import com.pado.idleworld.domain.Account;
+import com.pado.idleworld.exception.LoginInfoMismatchException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,10 +24,11 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Account account = accountRepository.findByEmail(email);
+
         if (account != null) {
             return new PrincipalDetails(account);
             //이게 시큐리티 세션 내부의 Authentication로 리턴됨
         }
-        return null;
+        throw new LoginInfoMismatchException();
     }
 }

@@ -5,6 +5,7 @@ import com.pado.idleworld.common.DataResult;
 import com.pado.idleworld.common.ResponseCode;
 import com.pado.idleworld.infra.AwsS3Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,6 +42,7 @@ public class BaseCategoryController {
     }
 
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @GetMapping("/v1/category/base")
     public DataResult baseCategoryRead() {
         List<BaseCategoryReadResponse> result = baseCategoryService.findBaseCategories();

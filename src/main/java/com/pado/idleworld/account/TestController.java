@@ -1,17 +1,23 @@
 package com.pado.idleworld.account;
 
+import com.pado.idleworld.account.mail.MailDTO;
+import com.pado.idleworld.common.CommonResult;
+import com.pado.idleworld.common.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
 public class TestController {
+
+    private final AccountService accountService;
 
     @GetMapping("/join")
     public String join() {
@@ -23,10 +29,10 @@ public class TestController {
         return "account/login";
     }
 
-    @GetMapping("/loginProc")
-    public @ResponseBody String main() {
-        return "로그인 완료!!";
-    }
+//    @GetMapping("/loginProc")
+//    public @ResponseBody String main() {
+//        return "로그인 완료!!";
+//    }
 
     @GetMapping("/admin")
     public @ResponseBody String admin() {
@@ -45,5 +51,12 @@ public class TestController {
     public @ResponseBody String data() {
         return "데이터정보";
     }
+
+
+    @GetMapping("/change-password")
+    public String changePassword() {
+        return "account/change-password";
+    }
+
 
 }
