@@ -26,7 +26,8 @@ public class AccountService {
     @Transactional
     public void accountUpdate(String email, AccountUpdateRequest request) {
         Account findAccount = accountRepository.findByEmail(email);
-        findAccount.setPassword(request.getPassword());
+        String encPw = passwordEncoding(request.getPassword());
+        findAccount.setPassword(encPw);
         findAccount.setImageUrl(request.getImageUrl());
         findAccount.setNickname(request.getNickname());
     }
