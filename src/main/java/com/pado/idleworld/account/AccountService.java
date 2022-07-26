@@ -8,6 +8,8 @@ import com.pado.idleworld.exception.DuplicationElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -144,5 +146,13 @@ public class AccountService {
         Account findAccount = accountRepository.findByEmail(email);
         findAccount.setRole(AccountRole.ROLE_USER);
     }
+
+    public String nowSessionEmail() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails)principal;
+        return userDetails.getUsername();
+
+    }
+
 
 }

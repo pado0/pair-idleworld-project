@@ -32,6 +32,9 @@ public class AccountLoginSuccessHandler implements AuthenticationSuccessHandler 
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
+        //HttpServletRequest : 웹에서 넘어온 Request
+        //HttpServletResponse : 출력을 정의
+
         Account account = (Account) authentication.getPrincipal();
 
         Account findAccount = accountRepository.findByEmail(account.getEmail());
