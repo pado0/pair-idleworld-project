@@ -10,6 +10,7 @@ import com.pado.idleworld.security.PrincipalDetails;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -65,6 +66,7 @@ public class AccountController {
     }
 
     //정보 조회(로그인 세션 기준)
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @GetMapping("/account")
     public DataResult accountInfo() {
         String email = accountService.nowSessionEmail();
@@ -80,6 +82,7 @@ public class AccountController {
     }
 
     //계정 업데이트(로그인 세션 기준)
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @PutMapping("/account")
     public CommonResult accountUpdate(@RequestBody AccountUpdateRequest request) {
         String email = accountService.nowSessionEmail();
@@ -110,6 +113,13 @@ public class AccountController {
     @PostMapping("/account/role/user")
     public CommonResult roleUser(@RequestParam("memberEmail") String memberEmail) {
         accountService.roleUser(memberEmail);
+        return new CommonResult(ResponseCode.SUCCESS);
+    }
+
+    //로그인 성공
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @GetMapping("/loginProc")
+    public CommonResult loginSuccess() {
         return new CommonResult(ResponseCode.SUCCESS);
     }
 

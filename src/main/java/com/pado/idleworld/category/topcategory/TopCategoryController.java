@@ -5,6 +5,7 @@ import com.pado.idleworld.common.DataResult;
 import com.pado.idleworld.common.ResponseCode;
 import com.pado.idleworld.domain.TopCategory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,6 +25,7 @@ public class TopCategoryController {
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @GetMapping("/category/top")
     public DataResult topCategoryRead() {
         List<TopCategory> topCategories = topCategoryService.findTopCategories();

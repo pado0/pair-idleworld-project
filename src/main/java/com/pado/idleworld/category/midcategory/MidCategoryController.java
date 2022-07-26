@@ -6,6 +6,7 @@ import com.pado.idleworld.common.DataResult;
 import com.pado.idleworld.common.ResponseCode;
 import com.pado.idleworld.domain.MidCategory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,6 +29,7 @@ public class MidCategoryController {
     }
 
     //todo : 미드카테고리 -> 미드카테고리리드리스폰스 서비스단으로
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @GetMapping("/category/mid")
     public DataResult midCategoryRead() {
         List<MidCategory> midCategories = midCategoryService.findMidCategories();

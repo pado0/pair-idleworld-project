@@ -34,10 +34,12 @@ public class AccountLoginSuccessHandler implements AuthenticationSuccessHandler 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
         //HttpServletRequest : 웹에서 넘어온 Request
         //HttpServletResponse : 출력을 정의
+        //Authentication : 인증에 성공한 사용자의 정보
 
         Account account = (Account) authentication.getPrincipal();
 
         Account findAccount = accountRepository.findByEmail(account.getEmail());
+
         if (findAccount.getFailCount() >= 3) {
             throw new AccountLockedByLoginFailException();
         } else {
@@ -45,7 +47,11 @@ public class AccountLoginSuccessHandler implements AuthenticationSuccessHandler 
         }
 
 
+
+        //requestCache : 사용자의 요청을 저장하고 꺼낼 수 있는 인터페이스
+        //SavedRequest : 사용자 요청정보가 들어있는 클래스 객체
         SavedRequest savedRequest = requestCache.getRequest(request, response);
+
         if (savedRequest != null) {
             redirectStrategy.sendRedirect(request, response, savedRequest.getRedirectUrl());
         } else {

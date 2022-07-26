@@ -29,10 +29,10 @@ public class TestController {
         return "account/login";
     }
 
-    @GetMapping("/loginProc")
-    public @ResponseBody String main() {
-        return "로그인 완료!!";
-    }
+//    @GetMapping("/loginProc")
+//    public @ResponseBody String main() {
+//        return "로그인 완료!!";
+//    }
 
     @GetMapping("/admin")
     public @ResponseBody String admin() {

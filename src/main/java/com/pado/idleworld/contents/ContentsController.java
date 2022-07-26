@@ -9,6 +9,7 @@ import com.pado.idleworld.domain.BaseCategoryContents;
 import com.pado.idleworld.domain.Contents;
 import com.pado.idleworld.infra.AwsS3Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -62,6 +63,7 @@ public class ContentsController {
 
 
     // 카테고리 기준으로 하위 컨텐츠 조회
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @GetMapping("/v1/{categoryId}/contents")
     public DataResult getCategoryContentsList(@PathVariable("categoryId") Long categoryId){
 
@@ -70,6 +72,7 @@ public class ContentsController {
     }
 
     // 컨텐츠 전체 조회
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @GetMapping("/v1/contents")
     public DataResult getAllContents(){
 
