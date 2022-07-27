@@ -6,6 +6,7 @@ import com.pado.idleworld.common.ResponseCode;
 import com.pado.idleworld.domain.Agreement;
 import com.pado.idleworld.exception.AgreementNotExistsException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ public class AgreementController {
 
     // Admin 이용 약관 내용 CRUD
 
+    @Secured("ROLE_ADMIN")
     @PostMapping("/agreement")
     public CommonResult postAgreementPolicy(@RequestBody @Valid Agreement.Request agreementRequestDto) {
 
@@ -31,6 +33,7 @@ public class AgreementController {
 
 
     // 최신 약관 조회기능
+    @Secured({"ROLE_USER","ROLE_ADMIN"})
     @GetMapping("/agreement")
     public DataResult getLatestAgreementPolicy(){
 
@@ -39,6 +42,7 @@ public class AgreementController {
         else return new DataResult(ResponseCode.SUCCESS, agreement);
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping("/agreement/{id}")
     public CommonResult putAgreementPolicy(@RequestBody Agreement.Request agreementRequest,
                                            @PathVariable("id") Long id) {
@@ -52,6 +56,7 @@ public class AgreementController {
     }
 
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/agreement/{id}")
     public CommonResult deleteAgreementPolicy(@PathVariable("id") Long id) {
 
