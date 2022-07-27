@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.7.1'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'org.asciidoctor.jvm.convert' version '3.3.2'
 }
 
 group = 'com.pado'
@@ -12,6 +13,13 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+
+}
+
+asciidoctor {
+	sourceDir 'src/main/asciidoc'
+	attributes \
+		'snippets': file('target/snippets')
 }
 
 repositories {
@@ -37,6 +45,9 @@ dependencies {
 	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.3.1'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+	testCompileOnly 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {

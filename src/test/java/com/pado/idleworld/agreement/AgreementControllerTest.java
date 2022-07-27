@@ -6,24 +6,31 @@ import com.pado.idleworld.domain.Agreement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.TestExecutionEvent;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
+@AutoConfigureRestDocs(outputDir = "target/snippets")
 class AgreementControllerTest {
 
     @Autowired
@@ -41,24 +48,45 @@ class AgreementControllerTest {
     @Autowired
     private AgreementService agreementService;
 
-//    @BeforeEach
-//    void 회원로그인(){
-//
-//    }
+    @BeforeEach
+    void 회원로그인() throws Exception {
+
+        mockMvc.perform(
+                        multipart("/v1/account/login")
+                                .param("email", "master@gmail.com")
+                                .param("password", "11111111"))
+                .andExpect(redirectedUrl("/v1/loginProc"))
+                .andDo(print());
+
+    }
 
 
+    @WithMockUser
     @Test
     void 이용약관_등록_성공() throws Exception {
 
+        // given
         Agreement.Request agreementRequestDto = new Agreement.Request();
         agreementRequestDto.setTitle("약관 제목");
         agreementRequestDto.setSubtitle("약관 내용");
 
-        mockMvc.perform(post("/v1/agreement")
+        mockMvc.perform(post("/v1/agreement").with(user("master@gmail.com"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(toJson(agreementRequestDto)))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andDo(document("/post",					// (1)
+                        preprocessRequest(prettyPrint()),   // (2)
+                        preprocessResponse(prettyPrint()),  // (3)
+                        requestFields( 						// (4)
+                                fieldWithPath("todo").description("할 일")
+
+                        ),
+                        responseFields(						// (5)
+                                fieldWithPath("id").description("사용자 id"), //
+                                fieldWithPath("todo").description("할 일")
+                        ))
+                );
     }
 
     @Test
