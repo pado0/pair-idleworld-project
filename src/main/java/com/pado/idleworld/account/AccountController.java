@@ -59,6 +59,7 @@ public class AccountController {
     //todo : playList 가져오면 널포인트
 
     //정보 조회
+    @Secured("ROLE_ADMIN")
     @GetMapping("/account/{accountEmail}")
     public DataResult accountInfo(@PathVariable("accountEmail") String email) {
 
@@ -66,7 +67,8 @@ public class AccountController {
     }
 
     //정보 조회(로그인 세션 기준)
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @Secured({"ROLE_USER","ROLE_ADMIN"})
     @GetMapping("/account")
     public DataResult accountInfo() {
         String email = accountService.nowSessionEmail();
@@ -75,6 +77,7 @@ public class AccountController {
     }
 
     //계정 업데이트
+    @Secured("ROLE_ADMIN")
     @PutMapping("/account/{accountEmail}")
     public CommonResult accountUpdate(@PathVariable("accountEmail") String email,@RequestBody AccountUpdateRequest request) {
         accountService.accountUpdate(email, request);
@@ -82,7 +85,8 @@ public class AccountController {
     }
 
     //계정 업데이트(로그인 세션 기준)
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @Secured({"ROLE_USER","ROLE_ADMIN"})
     @PutMapping("/account")
     public CommonResult accountUpdate(@RequestBody AccountUpdateRequest request) {
         String email = accountService.nowSessionEmail();
@@ -97,7 +101,7 @@ public class AccountController {
         MailDTO dto = accountService.createMailAndChangePassword(memberEmail);
         accountService.mailSend(dto);
 
-        return "account/login";
+        return "account/login"; //todo 응답으로 바꿔주자
     }
 
     //계정 권한 admin 변경
@@ -117,7 +121,8 @@ public class AccountController {
     }
 
     //로그인 성공
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @Secured({"ROLE_USER","ROLE_ADMIN"})
     @GetMapping("/loginProc")
     public CommonResult loginSuccess() {
         return new CommonResult(ResponseCode.SUCCESS);
