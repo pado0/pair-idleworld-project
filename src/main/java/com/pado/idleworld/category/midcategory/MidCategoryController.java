@@ -6,6 +6,7 @@ import com.pado.idleworld.common.DataResult;
 import com.pado.idleworld.common.ResponseCode;
 import com.pado.idleworld.domain.MidCategory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ public class MidCategoryController {
     private final MidCategoryService midCategoryService;
 
     //todo : topCategoryId가 틀렸을때 null로 생성된다.
+    @Secured("ROLE_ADMIN")
     @PostMapping("/category/mid")
     public CommonResult midCategoryCreate(@RequestBody @Valid MidCategoryCreateRequest request) {
         midCategoryService.createMidCategory(request);
@@ -29,7 +31,7 @@ public class MidCategoryController {
     }
 
     //todo : 미드카테고리 -> 미드카테고리리드리스폰스 서비스단으로
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @Secured({"ROLE_USER","ROLE_ADMIN"})
     @GetMapping("/category/mid")
     public DataResult midCategoryRead() {
         List<MidCategory> midCategories = midCategoryService.findMidCategories();
@@ -39,6 +41,7 @@ public class MidCategoryController {
         return new DataResult<>(ResponseCode.SUCCESS, result);
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping("/category/mid")
     public CommonResult midCategoryUpdate(@RequestBody @Valid MidCategoryUpdateRequest request) {
         midCategoryService.updateMidCategory(request);

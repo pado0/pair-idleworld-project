@@ -5,6 +5,7 @@ import com.pado.idleworld.common.DataResult;
 import com.pado.idleworld.common.ResponseCode;
 import com.pado.idleworld.infra.AwsS3Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,12 +20,14 @@ public class BaseCategoryController {
     private final BaseCategoryService baseCategoryService;
     private final AwsS3Service awsS3Service;
 
+    @Secured("ROLE_ADMIN")
     @PostMapping("/v1/category/base")
     public CommonResult baseCategoryCreate(@RequestBody @Valid BaseCategoryCreateRequest request) {
         baseCategoryService.createBaseCategory(request);
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping("/v2/category/base")
     public CommonResult baseCategoryCreateV2(@RequestParam String title,
                                              @RequestParam Long midCategoryId,
@@ -42,7 +45,7 @@ public class BaseCategoryController {
     }
 
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @Secured({"ROLE_USER","ROLE_ADMIN"})
     @GetMapping("/v1/category/base")
     public DataResult baseCategoryRead() {
         List<BaseCategoryReadResponse> result = baseCategoryService.findBaseCategories();
@@ -50,6 +53,7 @@ public class BaseCategoryController {
 
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping("/v1/category/base")
     public CommonResult basesCategoryUpdate(@RequestBody @Valid BaseCategoryUpdateRequest request) {
         baseCategoryService.updateBaseCategory(request);

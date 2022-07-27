@@ -10,6 +10,7 @@ import com.pado.idleworld.domain.BaseCategoryContents;
 import com.pado.idleworld.domain.Contents;
 import com.pado.idleworld.infra.AwsS3Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,6 +33,7 @@ public class ContentsController {
     private final ContentsService contentsService;
     private final BaseCategoryContentsRepository baseCategoryContentsRepository;
 
+    @Secured("ROLE_ADMIN")
     @PostMapping("/v1/contents")
     public CommonResult postContentsContext(@RequestBody @Valid Contents.Request contentsRequestDto){
 
@@ -39,6 +41,7 @@ public class ContentsController {
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping("/v3/contents")
     public CommonResult postContentsContextV3(@RequestParam String title,
                                               @RequestParam String subtitle,
@@ -54,7 +57,7 @@ public class ContentsController {
 
 
     // 카테고리 기준으로 하위 컨텐츠 조회
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @Secured({"ROLE_USER","ROLE_ADMIN"})
     @GetMapping("/v1/{categoryId}/contents")
     public DataResult getCategoryContentsList(@PathVariable("categoryId") Long categoryId){
 
@@ -63,7 +66,7 @@ public class ContentsController {
     }
 
     // 컨텐츠 전체 조회
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @Secured({"ROLE_USER","ROLE_ADMIN"})
     @GetMapping("/v1/contents")
     public DataResult getAllContents(){
 
@@ -72,6 +75,7 @@ public class ContentsController {
     }
 
     // 컨텐츠 전체 조회 with paging
+    @Secured("ROLE_ADMIN")
     @GetMapping("/v2/contents")
     public PageResult getAllContentsV2(@RequestParam int page,
                                          @RequestParam int size){
@@ -88,6 +92,7 @@ public class ContentsController {
 
 
     // 컨텐츠 수정 - 카테고리 다시 다 입력받아야 함
+    @Secured("ROLE_ADMIN")
     @PutMapping("/v1/contents/{contentsId}")
     public CommonResult putContentsContext(@RequestBody @Valid Contents.Request contentsRequestDto,
                                            @PathVariable("contentsId") Long contentsId){
@@ -102,6 +107,7 @@ public class ContentsController {
         return new CommonResult(ResponseCode.SUCCESS);
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping("/v3/contents/{contentsId}")
     public CommonResult putContentsContextV2(@RequestParam String title,
                                              @RequestParam String subtitle,
@@ -126,6 +132,7 @@ public class ContentsController {
     }
 
     // 컨텐츠 삭제 - 컨텐츠 삭제시 baseCategory 내 관련 컨텐츠 데이터 모두 삭제 (고아객체)
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/v1/contents/{contentsId}")
     public CommonResult putContentsContext(@PathVariable("contentsId") Long contentsId){
 
