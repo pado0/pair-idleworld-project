@@ -69,17 +69,17 @@ class AgreementControllerTest {
                         .content(toJson(agreementRequestDto)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andDo(document("agreement",					// (1)
-                        preprocessRequest(prettyPrint()),   // (2)
-                        preprocessResponse(prettyPrint()),  // (3)
-                        requestFields( 						// (4)
-                                fieldWithPath("title").description("제목"),
-                                fieldWithPath("subtitle").description("약관내용")
+                .andDo(document("agreement",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("title").description("title"),
+                                fieldWithPath("subtitle").description("subtitle")
 
                         ),
-                        responseFields(						// (5)
-                                fieldWithPath("code").description("성공코드"), //
-                                fieldWithPath("message").description("메세지") //
+                        responseFields(
+                                fieldWithPath("code").description("code"),
+                                fieldWithPath("message").description("message")
                         ))
                 );
     }
@@ -95,7 +95,17 @@ class AgreementControllerTest {
 
         mockMvc.perform(get("/v1/agreement"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andDo(document("agreement",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("code").description("code"),
+                                fieldWithPath("message").description("message"),
+                                fieldWithPath("data.id").description("id"),
+                                fieldWithPath("data.title").description("title"),
+                                fieldWithPath("data.subtitle").description("subtitle")))
+                );
     }
 
 
@@ -105,7 +115,16 @@ class AgreementControllerTest {
 
         mockMvc.perform(get("/v1/agreement"))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andDo(document("agreement",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("code").description("code"),
+                                fieldWithPath("message").description("message")
+                        ))
+                );
+
     }
 
     private <T> String toJson(T data) throws JsonProcessingException {

@@ -1,0 +1,7 @@
+[source,options="nowrap"]
+----
+{
+  "code" : 5001,
+  "message" : "등록된 약관이 없습니다"
+}
+----

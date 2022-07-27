@@ -1,0 +1,12 @@
+|===
+|Path|Type|Description
+
+|`+code+`
+|`+Number+`
+|code
+
+|`+message+`
+|`+String+`
+|message
+
+|===
