@@ -35,13 +35,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //.anyRequest().authenticated(); // 나머지는 로그인을 해야 쓸 수 있다.
 */
 
-        http.csrf().disable()//.authorizeRequests()
+        http.csrf().disable().authorizeRequests()
                 //.antMatchers("/login", "/join", "/v1/sign-up","/change-password","/v1/sendEmail/**","/v1/account/login").permitAll()
                 //.antMatchers("/v1/account/{accountEmail}").access("hasRole('ROLE_ADMIN')")
                 //.antMatchers("/admin").access("hasRole('ADMIN')")
                 //.anyRequest().authenticated()
                 //.anyRequest().access("hasRole('ROLE_ADMIN')")
-                //.and()
+                .and()
                 .formLogin()
                 .loginPage("/login")    //접근권한 없으면 해당 url로 가는듯?
                 .usernameParameter("email")
