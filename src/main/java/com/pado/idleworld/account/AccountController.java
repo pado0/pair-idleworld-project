@@ -97,11 +97,11 @@ public class AccountController {
 
     //임시 패스워드 발급
     @PostMapping("/sendEmail")
-    public String sendEmail(@RequestParam("memberEmail") String memberEmail) {
+    public CommonResult sendEmail(@RequestParam("memberEmail") String memberEmail) {
         MailDTO dto = accountService.createMailAndChangePassword(memberEmail);
         accountService.mailSend(dto);
 
-        return "account/login"; //todo 응답으로 바꿔주자
+        return new CommonResult(ResponseCode.SUCCESS); //todo 응답으로 바꿔주자
     }
 
     //계정 권한 admin 변경
