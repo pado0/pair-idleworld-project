@@ -32,8 +32,7 @@ public class TestController {
 
     @GetMapping("/login")
     public String login() {
-        return "common/hello-api";
-        //"account/login";
+        return "account/login";
     }
 
 //    @GetMapping("/loginProc")
