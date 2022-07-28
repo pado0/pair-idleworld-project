@@ -19,10 +19,9 @@ public class TestController {
 
     private final AccountService accountService;
 
-    @GetMapping("/idleworld-api")
-    public String apidocs() {
+    @GetMapping("/idle-world-api")
+    public String api_docs() {
 
-        System.out.println("idleworld-api 호출은 됨?");
         return "common/hello-api";
     }
 
@@ -33,7 +32,8 @@ public class TestController {
 
     @GetMapping("/login")
     public String login() {
-        return "account/login";
+        return "common/hello-api";
+        //"account/login";
     }
 
 //    @GetMapping("/loginProc")
