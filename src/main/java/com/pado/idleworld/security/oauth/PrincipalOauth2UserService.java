@@ -37,7 +37,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         signUpForm.setPassword("겟인데어");
         signUpForm.setProvider(provider);
         signUpForm.setProviderId(providerId);
-        signUpForm.setNickname(nickname);
+        signUpForm.setNickname("닉네임");
 
         if (accountRepository.findByEmail(signUpForm.getEmail()) == null) {
             accountService.accountCreate(signUpForm);
