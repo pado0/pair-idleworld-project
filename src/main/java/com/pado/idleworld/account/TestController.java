@@ -19,6 +19,11 @@ public class TestController {
 
     private final AccountService accountService;
 
+    @GetMapping("/idleworld-api")
+    public String apidocs() {
+        return "idleworld-api";
+    }
+
     @GetMapping("/join")
     public String join() {
         return "account/join";
