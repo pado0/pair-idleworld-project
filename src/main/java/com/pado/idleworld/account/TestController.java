@@ -21,6 +21,8 @@ public class TestController {
 
     @GetMapping("/idleworld-api")
     public String apidocs() {
+
+        System.out.println("idleworld-api 호출은 됨?");
         return "common/idleworld-api";
     }
 
