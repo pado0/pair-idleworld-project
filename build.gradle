@@ -21,22 +21,53 @@ repositories {
 	mavenCentral()
 }
 
-
+//1. adoc 파일 생성 경로 설정
 ext {
 	snippetsDir = file('build/generated-snippets')
 }
 
-asciidoctor {
-	inputs.dir snippetsDir
-	dependsOn test
-}
+// 2. bootJar 설정. 프로젝트 전체를 jar로 만들때 restdocs가 해당 jar에 들어가게 하기 위함
+// boot 실행시 asciidoctor.outputDir에 있는 html 파일을
+// Boot-INF/classes 경로 아래로 복사해줌
 
-bootJar { // SpringBoot 1.5 이하일 경우 jar
+bootJar {
 	dependsOn asciidoctor
-	from ("${asciidoctor.outputDir}/html5") {
-		into 'static/docs'
+	copy { //build/asciidoc/html5에 있는 컨버팅 된 html을 jar로 복붙
+		from "build/asciidoc/html5"
+		into 'src/main/resources/static/docs/'
+	}
+
+	// snippets을 src docs로 옮김
+	copy {
+		from "build/generated-snippets/common"
+		into 'src/docs/asciidoc/common'
 	}
 }
+
+// 4. adoc 파일을 html로 파싱해주는 애. test 실행시에만 실행되도록 설정.
+// asciidoctor가 사용할 input 파일들의 위치가 사전에 정해준 snippetsDir에 존재하도록
+asciidoctor {
+	dependsOn test
+	inputs.dir snippetsDir
+}
+
+// 5. asciidoctor 수행 전에 그 전에 만들었던 Restdocs를 삭제해 중복생성 막기
+asciidoctor.doFirst {
+	delete file('src/main/resources/static/docs')
+}
+
+// 6. 프로젝트 docs에 url로 접근하기 위해 파일 복붙해주는 애
+task copyDocument(type: Copy) {
+	dependsOn asciidoctor
+	from file("build/docs/asciidoc/common")
+	into file("src/main/resources/static/docs/common")
+}
+
+// 7. 6번의 tast를 Build시 수행되도록 한다.
+build {
+	dependsOn copyDocument
+}
+
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -54,9 +85,10 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.3.1'
+	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.1'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+	// rest docs 의존성 설정
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 
 	testCompileOnly 'org.projectlombok:lombok'

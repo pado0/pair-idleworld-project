@@ -1,0 +1,8 @@
+[source,bash]
+----
+$ echo '{
+  "title" : "약관 제목",
+  "subtitle" : "약관 내용"
+}' | http POST 'http://localhost:8080/v1/agreement' \
+    'Content-Type:application/json;charset=UTF-8'
+----

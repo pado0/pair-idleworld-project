@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-@AutoConfigureRestDocs(outputDir = "target/snippets")
+@AutoConfigureRestDocs
 class AgreementControllerTest {
 
     @Autowired
@@ -69,11 +69,11 @@ class AgreementControllerTest {
                         .content(toJson(agreementRequestDto)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andDo(document("agreement",
-                        preprocessRequest(prettyPrint()),
+                .andDo(document("agreement", // restdocs 경로 설정
+                        preprocessRequest(prettyPrint()), //json을 예쁘게 보여주기
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("title").description("title"),
+                                fieldWithPath("title").description("title"), // json 필드의 역할을 예쁘게 표로 보여주기
                                 fieldWithPath("subtitle").description("subtitle")
 
                         ),
@@ -153,7 +153,7 @@ class AgreementControllerTest {
                 .andExpect(jsonPath("$.code").value(5002));
     }
 
-    @Test
+   /* @Test
     @WithMockUser(roles = "ADMIN")
     void 이용약관_수정_성공() throws Exception {
         // given
@@ -178,6 +178,6 @@ class AgreementControllerTest {
         String title = agreementService.findLastCreatedAgreement().getTitle();
         assertThat(title).isNotEqualTo("제목입니다.");
         assertThat(title).isEqualTo(agreementRequestDto.getTitle());
-    }
+    }*/
 
 }

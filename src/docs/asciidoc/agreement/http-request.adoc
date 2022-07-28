@@ -1,0 +1,12 @@
+[source,http,options="nowrap"]
+----
+POST /v1/agreement HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 63
+Host: localhost:8080
+
+{
+  "title" : "약관 제목",
+  "subtitle" : "약관 내용"
+}
+----

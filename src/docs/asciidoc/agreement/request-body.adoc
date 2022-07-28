@@ -1,0 +1,7 @@
+[source,options="nowrap"]
+----
+{
+  "title" : "약관 제목",
+  "subtitle" : "약관 내용"
+}
+----

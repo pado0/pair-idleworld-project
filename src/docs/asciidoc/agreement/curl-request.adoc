@@ -1,0 +1,9 @@
+[source,bash]
+----
+$ curl 'http://localhost:8080/v1/agreement' -i -X POST \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -d '{
+  "title" : "약관 제목",
+  "subtitle" : "약관 내용"
+}'
+----
