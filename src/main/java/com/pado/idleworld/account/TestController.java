@@ -21,7 +21,7 @@ public class TestController {
 
     @GetMapping("/idleworld-api")
     public String apidocs() {
-        return "idleworld-api";
+        return "common/idleworld-api";
     }
 
     @GetMapping("/join")
