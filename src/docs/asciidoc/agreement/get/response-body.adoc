@@ -1,0 +1,12 @@
+[source,options="nowrap"]
+----
+{
+  "code" : 2020,
+  "message" : "성공",
+  "data" : {
+    "id" : 5,
+    "title" : "제목입니다",
+    "subtitle" : "내용입니다"
+  }
+}
+----

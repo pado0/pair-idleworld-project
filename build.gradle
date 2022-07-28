@@ -37,11 +37,16 @@ bootJar {
 		into 'src/main/resources/static/docs/'
 	}
 
-	// snippets을 src docs로 옮김
-	copy {
-		from "build/generated-snippets/common"
-		into 'src/docs/asciidoc/common'
+	copy { //build/asciidoc/html5에 있는 컨버팅 된 html을 jar로 복붙
+		from "build/generated-snippets/"
+		into 'src/docs/asciidoc/'
 	}
+
+	// snippets을 src docs로 옮김
+//	copy {
+//		from "build/generated-snippets/common"
+//		into 'src/docs/asciidoc/common'
+//	}
 }
 
 // 4. adoc 파일을 html로 파싱해주는 애. test 실행시에만 실행되도록 설정.
@@ -59,7 +64,7 @@ asciidoctor.doFirst {
 // 6. 프로젝트 docs에 url로 접근하기 위해 파일 복붙해주는 애
 task copyDocument(type: Copy) {
 	dependsOn asciidoctor
-	from file("build/docs/asciidoc/common")
+	from file("build/docs/asciidoc")
 	into file("src/main/resources/static/docs/common")
 }
 

@@ -1,0 +1,24 @@
+|===
+|Path|Type|Description
+
+|`+topCategoryId+`
+|`+Number+`
+|상위 카테고리 id
+
+|`+title+`
+|`+String+`
+|title
+
+|`+imageUrl+`
+|`+String+`
+|category Image url
+
+|`+videoUrl+`
+|`+Null+`
+|category Video url
+
+|`+videoText+`
+|`+Null+`
+|category Video text
+
+|===

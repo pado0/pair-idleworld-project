@@ -1,0 +1,10 @@
+[source,options="nowrap"]
+----
+{
+  "title" : "mid category",
+  "imageUrl" : "mid image url",
+  "videoUrl" : null,
+  "videoText" : null,
+  "topCategoryId" : 6
+}
+----

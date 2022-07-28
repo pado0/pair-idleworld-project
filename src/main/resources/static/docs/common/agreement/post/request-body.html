@@ -5,8 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="notification-api-docs">
-<title>IDLE WORLD API</title>
+<title>Untitled</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -436,275 +435,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="book toc2 toc-left">
+<body class="article">
 <div id="header">
-<h1>IDLE WORLD API</h1>
-<div class="details">
-<span id="author" class="author">notification-api-docs</span><br>
-<span id="revnumber">version 0.0.1-SNAPSHOT</span>
-</div>
-<div id="toc" class="toc2">
-<div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
-<li><a href="#_agreement_이용약관">Agreement (이용약관)</a>
-<ul class="sectlevel2">
-<li><a href="#_agreement_등록">Agreement 등록</a>
-<ul class="sectlevel3">
-<li><a href="#_request_sample">Request Sample</a></li>
-<li><a href="#_rsponse_sample">Rsponse Sample</a></li>
-</ul>
-</li>
-<li><a href="#_agreement_조회">Agreement 조회</a>
-<ul class="sectlevel3">
-<li><a href="#_request_sample_2">Request Sample</a></li>
-<li><a href="#_rsponse_sample_2">Rsponse Sample</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#_category_카테고리">Category (카테고리)</a>
-<ul class="sectlevel2">
-<li><a href="#_topcategory_등록">TopCategory 등록</a>
-<ul class="sectlevel3">
-<li><a href="#_request_sample_3">Request Sample</a></li>
-<li><a href="#_rsponse_sample_3">Rsponse Sample</a></li>
-</ul>
-</li>
-<li><a href="#_midcategory_등록">MidCategory 등록</a>
-<ul class="sectlevel3">
-<li><a href="#_request_sample_4">Request Sample</a></li>
-<li><a href="#_rsponse_sample_4">Rsponse Sample</a></li>
-</ul>
-</li>
-<li><a href="#_basecategory_등록">BaseCategory 등록</a>
-<ul class="sectlevel3">
-<li><a href="#_request_sample_5">Request Sample</a></li>
-<li><a href="#_rsponse_sample_5">Rsponse Sample</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</div>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="_agreement_이용약관"><a class="link" href="#_agreement_이용약관">Agreement (이용약관)</a></h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_agreement_등록"><a class="link" href="#_agreement_등록">Agreement 등록</a></h3>
-<div class="sect3">
-<h4 id="_request_sample"><a class="link" href="#_request_sample">Request Sample</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /v1/agreement HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 63
-Host: localhost:8080
-
-{
+<pre class="highlight nowrap"><code>{
   "title" : "약관 제목",
   "subtitle" : "약관 내용"
 }</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_rsponse_sample"><a class="link" href="#_rsponse_sample">Rsponse Sample</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 43
-
-{
-  "code" : 2020,
-  "message" : "성공"
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_agreement_조회"><a class="link" href="#_agreement_조회">Agreement 조회</a></h3>
-<div class="sect3">
-<h4 id="_request_sample_2"><a class="link" href="#_request_sample_2">Request Sample</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/agreement HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_rsponse_sample_2"><a class="link" href="#_rsponse_sample_2">Rsponse Sample</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 143
-
-{
-  "code" : 2020,
-  "message" : "성공",
-  "data" : {
-    "id" : 5,
-    "title" : "제목입니다",
-    "subtitle" : "내용입니다"
-  }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_category_카테고리"><a class="link" href="#_category_카테고리">Category (카테고리)</a></h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_topcategory_등록"><a class="link" href="#_topcategory_등록">TopCategory 등록</a></h3>
-<div class="sect3">
-<h4 id="_request_sample_3"><a class="link" href="#_request_sample_3">Request Sample</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /v1/category/top HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 62
-Host: localhost:8080
-
-{
-  "title" : "top category",
-  "imageUrl" : "top image url"
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_rsponse_sample_3"><a class="link" href="#_rsponse_sample_3">Rsponse Sample</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 43
-
-{
-  "code" : 2020,
-  "message" : "성공"
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_midcategory_등록"><a class="link" href="#_midcategory_등록">MidCategory 등록</a></h3>
-<div class="sect3">
-<h4 id="_request_sample_4"><a class="link" href="#_request_sample_4">Request Sample</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /v1/category/mid HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 128
-Host: localhost:8080
-
-{
-  "title" : "mid category",
-  "imageUrl" : "mid image url",
-  "videoUrl" : null,
-  "videoText" : null,
-  "topCategoryId" : 6
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_rsponse_sample_4"><a class="link" href="#_rsponse_sample_4">Rsponse Sample</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 43
-
-{
-  "code" : 2020,
-  "message" : "성공"
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_basecategory_등록"><a class="link" href="#_basecategory_등록">BaseCategory 등록</a></h3>
-<div class="sect3">
-<h4 id="_request_sample_5"><a class="link" href="#_request_sample_5">Request Sample</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /v2/category/base HTTP/1.1
-Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Host: localhost:8080
-
---6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Content-Disposition: form-data; name=title
-
-제목
---6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Content-Disposition: form-data; name=midCategoryId
-
-10
---6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Content-Disposition: form-data; name=imageFile; filename=imagefile.jpeg
-Content-Type: image/jpeg
-
-&lt;&lt;jpeg data&gt;&gt;
---6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm--</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_rsponse_sample_5"><a class="link" href="#_rsponse_sample_5">Rsponse Sample</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 32
-
-{"code":2020,"message":"성공"}</code></pre>
-</div>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -714,8 +455,5 @@ Version 0.0.1-SNAPSHOT<br>
 Last updated 2022-07-28 13:23:39 +0900
 </div>
 </div>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
-<script>hljs.initHighlighting()</script>
 </body>
 </html>

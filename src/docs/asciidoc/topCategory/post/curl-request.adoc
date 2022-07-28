@@ -1,0 +1,9 @@
+[source,bash]
+----
+$ curl 'http://localhost:8080/v1/category/top' -i -X POST \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -d '{
+  "title" : "top category",
+  "imageUrl" : "top image url"
+}'
+----

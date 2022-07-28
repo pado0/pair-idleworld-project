@@ -1,0 +1,8 @@
+[source,bash]
+----
+$ curl 'http://localhost:8080/v2/category/base' -i -X POST \
+    -H 'Content-Type: multipart/form-data;charset=UTF-8' \
+    -F 'imageFile=@imagefile.jpeg;type=image/jpeg' \
+    -F 'title=제목' \
+    -F 'midCategoryId=10'
+----

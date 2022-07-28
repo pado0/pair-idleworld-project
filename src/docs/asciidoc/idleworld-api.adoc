@@ -1,0 +1,47 @@
+= IDLE WORLD API
+notification-api-docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+
+== Agreement (이용약관)
+
+=== Agreement 등록
+
+==== Request Sample
+include::{snippets}/agreement/post/http-request.adoc[]
+==== Rsponse Sample
+include::{snippets}/agreement/post/http-response.adoc[]
+
+=== Agreement 조회
+==== Request Sample
+include::{snippets}/agreement/get/http-request.adoc[]
+==== Rsponse Sample
+include::{snippets}/agreement/get/http-response.adoc[]
+
+== Category (카테고리)
+=== TopCategory 등록
+==== Request Sample
+include::{snippets}/topCategory/post/http-request.adoc[]
+==== Rsponse Sample
+include::{snippets}/topCategory/post/http-response.adoc[]
+
+=== MidCategory 등록
+==== Request Sample
+include::{snippets}/midCategory/post/http-request.adoc[]
+==== Rsponse Sample
+include::{snippets}/midCategory/post/http-response.adoc[]
+
+=== BaseCategory 등록
+==== Request Sample
+include::{snippets}/baseCategory/post/http-request.adoc[]
+==== Rsponse Sample
+include::{snippets}/baseCategory/post/http-response.adoc[]

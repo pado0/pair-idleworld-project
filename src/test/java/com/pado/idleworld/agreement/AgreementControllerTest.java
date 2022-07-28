@@ -69,7 +69,7 @@ class AgreementControllerTest {
                         .content(toJson(agreementRequestDto)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andDo(document("agreement", // restdocs 경로 설정
+                .andDo(document("agreement/post", // restdocs 경로 설정
                         preprocessRequest(prettyPrint()), //json을 예쁘게 보여주기
                         preprocessResponse(prettyPrint()),
                         requestFields(
@@ -96,7 +96,7 @@ class AgreementControllerTest {
         mockMvc.perform(get("/v1/agreement"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andDo(document("agreement",
+                .andDo(document("agreement/get",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         responseFields(
@@ -116,7 +116,7 @@ class AgreementControllerTest {
         mockMvc.perform(get("/v1/agreement"))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andDo(document("agreement",
+                .andDo(document("agreement/get-fail",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         responseFields(
@@ -153,31 +153,31 @@ class AgreementControllerTest {
                 .andExpect(jsonPath("$.code").value(5002));
     }
 
-   /* @Test
-    @WithMockUser(roles = "ADMIN")
-    void 이용약관_수정_성공() throws Exception {
-        // given
-        Agreement agreement = new Agreement();
-        agreement.setTitle("제목입니다");
-        agreement.setSubtitle("내용입니다");
-        agreementRepository.save(agreement);
-
-        Agreement.Request agreementRequestDto = new Agreement.Request();
-        agreementRequestDto.setTitle("수정된 제목입니다.");
-        agreementRequestDto.setSubtitle("수정된 내용입니다");
-
-
-        // when, 존재하지 않는 항목일 때. pathvariable 변수
-        mockMvc.perform(put("/v1/agreement/2")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(toJson(agreementRequestDto)))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(2020));
-
-        String title = agreementService.findLastCreatedAgreement().getTitle();
-        assertThat(title).isNotEqualTo("제목입니다.");
-        assertThat(title).isEqualTo(agreementRequestDto.getTitle());
-    }*/
+//    @Test
+//    @WithMockUser(roles = "ADMIN")
+//    void 이용약관_수정_성공() throws Exception {
+//        // given
+//        Agreement agreement = new Agreement();
+//        agreement.setTitle("제목입니다");
+//        agreement.setSubtitle("내용입니다");
+//        agreementRepository.save(agreement);
+//
+//        Agreement.Request agreementRequestDto = new Agreement.Request();
+//        agreementRequestDto.setTitle("수정된 제목입니다.");
+//        agreementRequestDto.setSubtitle("수정된 내용입니다");
+//
+//
+//        // when, 존재하지 않는 항목일 때. pathvariable 변수
+//        mockMvc.perform(put("/v1/agreement/2")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(toJson(agreementRequestDto)))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.code").value(2020));
+//
+//        String title = agreementService.findLastCreatedAgreement().getTitle();
+//        assertThat(title).isNotEqualTo("제목입니다.");
+//        assertThat(title).isEqualTo(agreementRequestDto.getTitle());
+//    }
 
 }

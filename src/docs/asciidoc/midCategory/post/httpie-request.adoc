@@ -1,0 +1,11 @@
+[source,bash]
+----
+$ echo '{
+  "title" : "mid category",
+  "imageUrl" : "mid image url",
+  "videoUrl" : null,
+  "videoText" : null,
+  "topCategoryId" : 6
+}' | http POST 'http://localhost:8080/v1/category/mid' \
+    'Content-Type:application/json;charset=UTF-8'
+----

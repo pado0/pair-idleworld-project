@@ -1,0 +1,10 @@
+|===
+|Parameter|Description
+
+|`+title+`
+|title
+
+|`+midCategoryId+`
+|중위 카테고리 id
+
+|===

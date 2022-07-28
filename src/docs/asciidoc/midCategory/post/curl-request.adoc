@@ -1,0 +1,12 @@
+[source,bash]
+----
+$ curl 'http://localhost:8080/v1/category/mid' -i -X POST \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -d '{
+  "title" : "mid category",
+  "imageUrl" : "mid image url",
+  "videoUrl" : null,
+  "videoText" : null,
+  "topCategoryId" : 6
+}'
+----

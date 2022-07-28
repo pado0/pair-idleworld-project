@@ -1,0 +1,7 @@
+[source,bash]
+----
+$ http --multipart POST 'http://localhost:8080/v2/category/base' \
+    'imageFile'@'imagefile.jpeg' \
+    'title=제목' \
+    'midCategoryId=10'
+----

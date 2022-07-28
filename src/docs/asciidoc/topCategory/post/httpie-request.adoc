@@ -1,0 +1,8 @@
+[source,bash]
+----
+$ echo '{
+  "title" : "top category",
+  "imageUrl" : "top image url"
+}' | http POST 'http://localhost:8080/v1/category/top' \
+    'Content-Type:application/json;charset=UTF-8'
+----

@@ -1,0 +1,7 @@
+[source,options="nowrap"]
+----
+{
+  "code" : 2020,
+  "message" : "성공"
+}
+----
