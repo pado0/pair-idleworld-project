@@ -72,6 +72,7 @@ public class AccountService {
                 .nickname(findAccount.getNickname())
                 .imageUrl(findAccount.getImageUrl())
                 .agree(findAccount.isAgree())
+                .role(findAccount.getRole().toString())
                 //.playListId(findAccount.getPlayList().getId())
                 .build();
     }

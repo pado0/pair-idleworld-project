@@ -1,6 +1,7 @@
 package com.pado.idleworld.account;
 
 import com.pado.idleworld.domain.AccountProduct;
+import com.pado.idleworld.domain.AccountRole;
 import com.pado.idleworld.domain.PlayList;
 import lombok.Builder;
 import lombok.Data;
@@ -24,4 +25,6 @@ public class AccountInfoResponse {
     private boolean agree;
 
     private Long playListId;
+
+    private String role;
 }
