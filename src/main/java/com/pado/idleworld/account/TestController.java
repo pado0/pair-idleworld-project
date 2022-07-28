@@ -23,7 +23,7 @@ public class TestController {
     public String apidocs() {
 
         System.out.println("idleworld-api 호출은 됨?");
-        return "common/idleworld-api";
+        return "common/hello-api";
     }
 
     @GetMapping("/join")
