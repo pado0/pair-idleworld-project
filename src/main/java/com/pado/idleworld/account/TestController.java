@@ -19,10 +19,10 @@ public class TestController {
 
     private final AccountService accountService;
 
-    @GetMapping("/idle-world-api")
+    @GetMapping("/idleworld-api")
     public String api_docs() {
 
-        return "common/hello-api";
+        return "common/idleworld-api";
     }
 
     @GetMapping("/join")
