@@ -59,6 +59,9 @@ public class ContentsService {
         String imageS3Url = awsS3Service.uploadFileV1(title, multipartImageFile);
         String videoS3Url = awsS3Service.uploadFileV1(title, multipartVideoFile);
 
+        String[] urlParsing = videoS3Url.split("/");
+        videoS3Url = "https://dgk57d5yag8q1.cloudfront.net/" + urlParsing[3];
+
         Contents.Request contentsRequestDto = new Contents.Request();
         contentsRequestDto.setTitle(title);
         contentsRequestDto.setSubtitle(subtitle);
